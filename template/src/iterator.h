@@ -19,11 +19,20 @@ public:
 
 class FolderIterator : public Iterator {
 public:
-    FolderIterator(Folder* composite);
-    void first();
+    FolderIterator(Folder* composite)
+    : _composite(composite)
+    {}
+    void first(){
+        _it = _composite->_nodes.begin();
+    }
     Node * currentItem() const;
     void next();
-    bool isDone() const;
+    bool isDone() const{
+        return _it == _composite->_nodes.end();
+    }
+private:
+    Folder * _composite;
+    std::list<Node *>::iterator _it;
 };
 
 

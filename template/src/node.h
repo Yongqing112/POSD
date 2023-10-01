@@ -1,27 +1,28 @@
 #if !defined(NODE_H)
 #define NODE_H
 
+#include "./iterator.h"
 #include<string>
 
 using namespace std;
 
 class Node {
 public:
-    Node(const std::string path, const std::string & name = "")
+    Node(const std::string path = "", const std::string & name = "")
     :_path(path), _name(name)
     {}
 
-    string name() const{
+    std::string name() const{
         return _name;
     }
     
-    string path() const{
+    std::string path() const{
         return _path + _name;
     }
     
-    void add(Node * node);
+    virtual void add(Node * node) = 0;
 
-    void remove(string path);
+    virtual void remove(string path) const = 0;
     
     Node * getChildByName(const char * name) const;
 
@@ -29,7 +30,7 @@ public:
 
     int numberOfFiles() const;
 
-    // Iterator * createIterator();
+    virtual Iterator * createIterator();
 private:
     const std::string _path;
     const std::string _name;

@@ -6,13 +6,13 @@ TEST(FileSuite, Ping){
 }
 
 TEST(FileSuite, CreateFile){
-    File f("/Users/user/home/", "create.txt");
-    ASSERT_EQ("/Users/user/home/create.txt", f.path());
-    ASSERT_EQ("create.txt", f.name());
+    File firstFile("", "firstFile.txt");
+    ASSERT_EQ("firstFile.txt", firstFile.path());
+    ASSERT_EQ("firstFile.txt", firstFile.name());
 }
 
 TEST(FileSuite, FileAsNode){
-    Node * file = new File("/Users/user/home/", "create.txt");
-    ASSERT_EQ("/Users/user/home/create.txt", file->path());
-    ASSERT_EQ("create.txt", file->name());
+    Node * firstFile = new File("", "firstFile.txt");
+    ASSERT_EQ("firstFile.txt", firstFile->path());
+    ASSERT_EQ("firstFile.txt", firstFile->name());
 }
