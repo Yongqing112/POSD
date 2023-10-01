@@ -7,9 +7,17 @@ using namespace std;
 
 class Node {
 public:
-    string name() const;
+    Node(const std::string path, const std::string & name = "")
+    :_path(path), _name(name)
+    {}
+
+    string name() const{
+        return _name;
+    }
     
-    string path() const;
+    string path() const{
+        return _path + _name;
+    }
     
     void add(Node * node);
 
@@ -21,7 +29,10 @@ public:
 
     int numberOfFiles() const;
 
-    Iterator * createIterator();
+    // Iterator * createIterator();
+private:
+    const std::string _path;
+    const std::string _name;
 };
 
 
