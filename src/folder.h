@@ -3,13 +3,14 @@
 #pragma once
 #include "./node.h"
 #include "./iterator.h"
-#include <list>
+#include <vector>
 
 using namespace std;
 
 class Folder: public Node {
+    friend class FolderIterator;
 public:
-    Folder(const std::string & path = "", const std::string & name = "", std::list<Node *> nodes = {})
+    Folder(const std::string & path = "", const std::string & name = "", std::vector<Node *> nodes = {})
     :Node(path, name), _nodes(nodes)
     {}
 
@@ -23,7 +24,7 @@ public:
         return new FolderIterator(this);
     }
 private:
-    std::list<Node *> _nodes;
+    std::vector<Node *> _nodes;
 };
 
 

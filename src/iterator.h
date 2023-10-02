@@ -3,7 +3,7 @@
 
 #pragma once 
 
-#include<list>
+#include<vector>
 
 class Node;
 class Folder;
@@ -11,28 +11,22 @@ class Folder;
 class Iterator {
 public:
     ~Iterator();
-    virtual void first();
+    void first();
     Node * currentItem() const;
-    virtual void next();
-    virtual bool isDone() const;
+    void next();
+    bool isDone() const;
 };
 
 class FolderIterator : public Iterator {
 public:
-    FolderIterator(Folder* composite)
-    : _composite(composite)
-    {}
-    void first(){
-        _it = _composite->_nodes.begin();
-    }
-    Node * currentItem() const;
+    FolderIterator(Folder* composite);
+    void first();
+    Node * currentItem();
     void next();
-    bool isDone() const{
-        return _it == _composite->_nodes.end();
-    }
+    bool isDone();
 private:
     Folder * _composite;
-    std::list<Node *>::iterator _it;
+    std::vector<Node *>::iterator _it;
 };
 
 
