@@ -24,6 +24,6 @@ TEST(FolderSuite, Iterator){
     Node * firstFolder = new Folder("", "firstFolder");
     firstFolder->add(new Folder(firstFolder->name() + "/secondFolder", "secondFolder"));
     Iterator * it = firstFolder->createIterator();
-    it->Iterator::first();
+    it->first();
     ASSERT_TRUE(it->isDone());
 }
