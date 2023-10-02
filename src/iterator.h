@@ -10,7 +10,7 @@ class Folder;
 
 class Iterator {
 public:
-    ~Iterator();
+    ~Iterator(){}
     void first();
     Node * currentItem() const;
     void next();
@@ -24,6 +24,7 @@ public:
     Node * currentItem();
     void next();
     bool isDone();
+    ~FolderIterator(){}
 private:
     Folder * _composite;
     std::vector<Node *>::iterator _it;

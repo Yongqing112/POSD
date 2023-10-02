@@ -30,7 +30,7 @@ public:
 
     int numberOfFiles() const;
 
-    virtual Iterator * createIterator();
+    //virtual Iterator * createIterator();
 private:
     const std::string _path;
     const std::string _name;
