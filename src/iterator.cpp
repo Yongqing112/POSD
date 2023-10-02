@@ -1,5 +1,5 @@
 #include "./folder.h"
-// #include "./node.h"
+#include "./node.h"
 #include "./iterator.h"
 
 FolderIterator::FolderIterator(Folder * composite)
@@ -8,10 +8,15 @@ FolderIterator::FolderIterator(Folder * composite)
 void FolderIterator::first(){
     _it = _composite->_nodes.begin();
 }
-// Node * FolderIterator::currentItem() const;
 
-// void FolderIterator::next();
-
-bool FolderIterator::isDone(){
+bool FolderIterator::isDone() const{
     return _it == _composite->_nodes.end();
+}
+
+Node * FolderIterator::currentItem() const{
+    return *_it;
+}
+
+void FolderIterator::next(){
+    _it++;
 }

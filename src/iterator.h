@@ -21,9 +21,9 @@ class FolderIterator : public Iterator {
 public:
     FolderIterator(Folder* composite);
     void first();
-    Node * currentItem();
+    Node * currentItem() const;
     void next();
-    bool isDone();
+    bool isDone() const;
     ~FolderIterator(){}
 private:
     Folder * _composite;

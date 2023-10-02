@@ -20,11 +20,15 @@ TEST(FolderSuite, FolderAsNode){
 }
 
 TEST(FolderSuite, Iterator){
-    //std::list<Node *> nodes = {};
-    Folder * firstFolder = new Folder("/firstFolder/", "firstFolder");
-    // firstFolder->add(new Folder(firstFolder->name() + "/secondFolder", "secondFolder"));
+    std::vector<Node *> nodes = {new File("/firstFolder/firstFile.txt","firstFile.txt"), new File("/firstFolder/secondFile.txt","secondFile.txt")};
+    Folder * firstFolder = new Folder("/firstFolder/", "firstFolder", nodes);
     FolderIterator * it = firstFolder->createIterator();
-    // it->first();
-    // ASSERT_TRUE(it->isDone());
+    it->first();
+    ASSERT_FALSE(it->isDone());
+    it->next();
+    ASSERT_FALSE(it->isDone());
+    ASSERT_EQ("secondFile.txt", it->currentItem()->name());
+    it->next();
+    ASSERT_TRUE(it->isDone());
     delete it;
 }
