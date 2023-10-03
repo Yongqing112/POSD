@@ -4,6 +4,7 @@
 #include "./node.h"
 #include "./iterator.h"
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -15,10 +16,36 @@ public:
     {}
 
     void add(Node * node) override{
-        _nodes.push_back(node);
+        this->_nodes.push_back(node);
     }
     
-    void remove(string path) const override{};
+    void remove(string path) override {
+        for(auto it = this->_nodes.begin(); it != this->_nodes.end(); it++){
+            if((*it)->path() == path){
+                this->_nodes.erase(it--);
+            }
+        }
+    }
+
+    Node * getChildByName(const char * name) const override{
+        Node * target = nullptr;
+        for(auto it = this->_nodes.begin(); it != this->_nodes.end(); it++){
+            if((*it)->name() == name){
+                target = *it;
+            }
+        }
+        return target;
+    }
+
+    Node * find(string path){
+        Node * target = nullptr;
+        for(auto it = this->_nodes.begin(); it != this->_nodes.end(); it++){
+            if((*it)->path() == path){
+                target = *it;
+            }
+        }
+        return target;
+    }
 
     FolderIterator * createIterator(){
         return new FolderIterator(this);
