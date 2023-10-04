@@ -11,25 +11,34 @@ using namespace std;
 class Folder: public Node {
     friend class FolderIterator;
 public:
-    Folder(const std::string & path = "", const std::string & name = "", std::vector<Node *> nodes = {})
-    :Node(path, name), _nodes(nodes)
+    Folder(std::string path)
+    :Node(path)
     {}
 
     void add(Node * node) override{
-        this->_nodes.push_back(node);
+        Folder * folder = dynamic_cast<Folder *>(this);
+        if(folder){
+            vector<string *> nodePath = customSplit(node->getPath());
+            nodePath.pop_back();
+            vector<string *> thisPath = customSplit(this->getPath());
+            if(nodePath == thisPath){
+                node->setParent(this);
+                this->_subNodes.push_back(node);
+            }
+        }
     }
     
     void remove(string path) override {
-        for(auto it = this->_nodes.begin(); it != this->_nodes.end(); it++){
+        for(auto it = this->_subNodes.begin(); it != this->_subNodes.end(); it++){
             if((*it)->path() == path){
-                this->_nodes.erase(it--);
+                this->_subNodes.erase(it--);
             }
         }
     }
 
     Node * getChildByName(const char * name) const override{
         Node * target = nullptr;
-        for(auto it = this->_nodes.begin(); it != this->_nodes.end(); it++){
+        for(auto it = this->_subNodes.begin(); it != this->_subNodes.end(); it++){
             if((*it)->name() == name){
                 target = *it;
             }
@@ -39,7 +48,7 @@ public:
 
     Node * find(string path){
         Node * target = nullptr;
-        for(auto it = this->_nodes.begin(); it != this->_nodes.end(); it++){
+        for(auto it = this->_subNodes.begin(); it != this->_subNodes.end(); it++){
             if((*it)->path() == path){
                 target = *it;
             }
@@ -47,11 +56,24 @@ public:
         return target;
     }
 
+    int numberOfFiles() override{
+        int count = this->_subNodes.size();
+        Folder * folder;
+        for(auto it = this->_subNodes.begin(); it != this->_subNodes.end(); it++){
+            folder = dynamic_cast<Folder *>(*it);
+            if(folder){
+                count += folder->numberOfFiles();
+                count -= 1;
+            }
+        }
+        return count;
+    };
+
     FolderIterator * createIterator(){
         return new FolderIterator(this);
     }
 private:
-    std::vector<Node *> _nodes;
+    vector<Node *> _subNodes;
 };
 
 

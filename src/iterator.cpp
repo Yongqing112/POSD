@@ -6,11 +6,11 @@ FolderIterator::FolderIterator(Folder * composite)
     : _composite(composite)
     {}
 void FolderIterator::first(){
-    _it = _composite->_nodes.begin();
+    _it = _composite->_subNodes.begin();
 }
 
 bool FolderIterator::isDone() const{
-    return _it == _composite->_nodes.end();
+    return _it == _composite->_subNodes.end();
 }
 
 Node * FolderIterator::currentItem() const{

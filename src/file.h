@@ -3,11 +3,12 @@
 #pragma once
 #include "./node.h"
 #include "./iterator.h"
+#include "./null_iterator.h"
 
 class File: public Node {
 public:
-    File(const std::string & path = "", const std::string & name = "")
-    :Node(path, name)
+    File(std::string path)
+    :Node(path)
     {}
 
     void add(Node * node) override{
@@ -26,6 +27,14 @@ public:
     Node * find(string path){
         Node * target = nullptr;
         return target;
+    }
+
+    int numberOfFiles() override{
+        return 0;
+    }
+
+    NullIterator * createIterator(){
+        return new NullIterator();
     }
 
 private:

@@ -8,5 +8,7 @@ iterator.o:
 	g++ -std=c++11 -c src/iterator.cpp -o obj/iterator.o
 
 clean:
-	rm -rf bin/ut_all
+	rm -rf bin obj
 
+dir:
+	mkdir -p bin obj

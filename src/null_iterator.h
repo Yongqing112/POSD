@@ -2,6 +2,13 @@
 #define NULL_ITERATOR_H
 
 class NullIterator : public Iterator {
+    void first();
+    Node * currentItem() const;
+    void next();
+    bool isDone() const{
+        return true;
+    }
+    ~NullIterator(){}
 };
 
 #endif // NULL_ITERATOR_H

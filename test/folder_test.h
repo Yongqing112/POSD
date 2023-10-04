@@ -8,86 +8,100 @@ TEST(FolderSuite, Ping){
 }
 
 TEST(FolderSuite, CreateFolder){
-    Folder firstFolder("", "firstFolder");
+    Folder firstFolder("/firstFolder");
     ASSERT_EQ("firstFolder", firstFolder.name());
-    ASSERT_EQ("firstFolder", firstFolder.path());
+    ASSERT_EQ("/firstFolder", firstFolder.path());
 }
 
 TEST(FolderSuite, FolderAsNode){
-    Node * firstFolder = new Folder("", "firstFolder");
+    Node * firstFolder = new Folder("/firstFolder");
     ASSERT_EQ("firstFolder", firstFolder->name());
-    ASSERT_EQ("firstFolder", firstFolder->path());
+    ASSERT_EQ("/firstFolder", firstFolder->path());
 }
 
-TEST(FolderSuite, Iterator){
-    std::vector<Node *> nodes = {new File("/firstFolder/","firstFile.txt"), new File("/firstFolder/","secondFile.txt")};
-    Folder * firstFolder = new Folder("", "firstFolder", nodes);
+TEST(FolderSuite, AddAndIterator){
+    Folder * firstFolder = new Folder("/firstFolder");
+    Node * firstFile = new File("/firstFolder/firstFile.txt");
+    firstFolder->add(firstFile);
     FolderIterator * it = firstFolder->createIterator();
     it->first();
     ASSERT_FALSE(it->isDone());
-    it->next();
-    ASSERT_FALSE(it->isDone());
-    ASSERT_EQ("secondFile.txt", it->currentItem()->name());
+    ASSERT_EQ("firstFile.txt", it->currentItem()->getName());
+    ASSERT_EQ("/firstFolder/firstFile.txt", it->currentItem()->getPath());
     it->next();
     ASSERT_TRUE(it->isDone());
-
     delete it;
-}
-
-TEST(FolderSuite, Add){
-    std::vector<Node *> nodes = {new Folder("/firstFolder/", "secondFolder")};
-    Folder * firstFolder = new Folder("", "firstFolder", nodes);
-    FolderIterator * it = firstFolder->createIterator();
-    it->first();
-    ASSERT_FALSE(it->isDone());
-    ASSERT_EQ("secondFolder", it->currentItem()->name());
-    File firstFile("/firstFolder/", "firstFile.txt");
-    firstFolder->add(&firstFile);
-    Node * f = firstFolder->getChildByName("firstFile.txt");
-    ASSERT_EQ("firstFile.txt", f->name());
-    
-    delete it;
-
 }
 
 TEST(FolderSuite, Remove){
-    std::vector<Node *> nodes = {new Folder("/firstFolder/", "secondFolder")};
-    Folder * firstFolder = new Folder("", "firstFolder", nodes);
-    firstFolder->remove("/firstFolder/secondFolder");
+    Folder * firstFolder = new Folder("/firstFolder");
+    Node * firstFile = new File("/firstFolder/firstFile.txt");
+    firstFolder->add(firstFile);
     FolderIterator * it = firstFolder->createIterator();
+    it->first();
+    ASSERT_FALSE(it->isDone());
+    ASSERT_EQ("firstFile.txt", it->currentItem()->getName());
+    firstFolder->remove("/firstFolder/firstFile.txt");
     it->first();
     ASSERT_TRUE(it->isDone());
     delete it;
-
 }
 
 TEST(FolderSuite, GetChildByName){
-    std::vector<Node *> nodes = {new File("/firstFolder/","firstFile.txt"), new File("/firstFolder/","secondFile.txt")};
-    Folder * firstFolder = new Folder("/firstFolder/", "firstFolder", nodes);
-    Node * f = firstFolder->getChildByName("firstFile.txt");
-    ASSERT_EQ("firstFile.txt", f->name());
+    Folder * firstFolder = new Folder("/firstFolder");
+    Node * firstFile = new File("/firstFolder/firstFile.txt");
+    firstFolder->add(firstFile);
+    ASSERT_EQ("firstFile.txt", firstFolder->getChildByName("firstFile.txt")->name());
+    firstFolder->remove("/firstFolder/firstFile.txt");
+    ASSERT_EQ(nullptr, firstFolder->getChildByName("firstFile.txt"));
 }
 
-TEST(FolderSuite, AddAndGetChildByNameInSubFolder){
-    std::vector<Node *> nodes = {new Folder("/firstFolder/", "secondFolder")};
-    Folder * firstFolder = new Folder("", "firstFolder", nodes);
+TEST(FolderSuite, Find){
+    Folder * firstFolder = new Folder("/firstFolder");
+    Node * firstFile = new File("/firstFolder/firstFile.txt");
+    firstFolder->add(firstFile);
+    ASSERT_EQ("/firstFolder/firstFile.txt", firstFolder->find("/firstFolder/firstFile.txt")->path());
+}
+
+TEST(FolderSuite, AddAndGetChildByNameAndFindInSubNode){
+    Folder * firstFolder = new Folder("/firstFolder");
+    Folder * secondFolder = new Folder("/firstFolder/secondFolder");
+    Node * firstFile = new File("/firstFolder/secondFolder/firstFile.txt");
+    firstFolder->add(secondFolder);
     FolderIterator * it = firstFolder->createIterator();
-    Folder * thirdFolder= new Folder("/firstFolder/secondFolder", "thirdFolder");
     it->first();
-    it->currentItem()->add(thirdFolder);
-    Node * f = it->currentItem();
-    Node * folder = f->getChildByName("thirdFolder");
-    ASSERT_EQ("thirdFolder", folder->name());
+    it->currentItem()->add(firstFile);
+    ASSERT_EQ("firstFile.txt", it->currentItem()->getChildByName("firstFile.txt")->name());
+    ASSERT_EQ("/firstFolder/secondFolder/firstFile.txt", it->currentItem()->find("/firstFolder/secondFolder/firstFile.txt")->path());
     delete it;
 }
 
+TEST(FolderSuite, NumberOfFiles){
+    Folder * firstFolder = new Folder("/firstFolder");
+    Folder * secondFolder = new Folder("/firstFolder/secondFolder");
+    Node * firstFile = new File("/firstFolder/firstFile.txt");
+    Node * secondFile = new File("/firstFolder/secondFolder/secondFile.txt");
+    firstFolder->add(firstFile);
+    firstFolder->add(secondFolder);
+    FolderIterator * it = firstFolder->createIterator();
+    it->first();
+    it->next();
+    it->currentItem()->add(secondFile);
+    ASSERT_EQ(2, firstFolder->numberOfFiles());
+}
 
-TEST(FolderSuite, Find){
-    std::vector<Node *> secondFolderNodes = {new File("/firstFolder/secondFolder","firstFile.txt")};
-    std::vector<Node *> nodes = {new File("/firstFolder/", "firstFile.txt"),new File("/firstFolder/","secondFile.txt"), new Folder("/firstFolder/", "secondFolder", secondFolderNodes)};
-    Folder * firstFolder = new Folder("/fistFolder/", "firstFolder", nodes);
-    Node * f = firstFolder->find("/firstFolder/firstFile.txt");
-    ASSERT_EQ("/firstFolder/firstFile.txt", f->path());
-    f = firstFolder->find("/firstFolder/secondFolder/firstFile.txt");
-    // ASSERT_EQ("/firstFolder/firstFile.txt", f->path());
+TEST(FolderSuite, SetParent){
+    Folder * firstFolder = new Folder("/firstFolder");
+    Folder * secondFolder = new Folder("/firstFolder/secondFolder");
+    Node * firstFile = new File("/firstFolder/firstFile.txt");
+    firstFolder->add(firstFile);
+    firstFolder->add(secondFolder);
+    FolderIterator * it = firstFolder->createIterator();
+    it->first();//firstFile
+    Node * parent = it->currentItem()->getParent();
+    ASSERT_EQ("/firstFolder", parent->path());
+    it->next();//secondFolder
+    parent = it->currentItem()->getParent();
+    ASSERT_EQ("/firstFolder", parent->path());
+    delete it;
 }

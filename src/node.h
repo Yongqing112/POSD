@@ -2,22 +2,36 @@
 #define NODE_H
 #pragma once
 #include "./iterator.h"
-#include<string>
+#include <string>
+#include <sstream>
+#include <iostream>
+#include <vector>
 
 using namespace std;
 
 class Node {
 public:
-    Node(const std::string path = "", const std::string & name = "")
-    :_path(path), _name(name)
-    {}
+    Node(std::string path)
+    :_path(path)
+    {
+        std::vector<std::string *> tokens = customSplit(_path);
+        _name = *(tokens.at(tokens.size()-1));
+    }
 
     std::string name() const{
         return _name;
     }
+
+    std::string getName(){
+        return _name;
+    }
     
     std::string path() const{
-        return _path + _name;
+        return _path;
+    }
+
+    std::string getPath(){
+        return _path;
     }
     
     virtual void add(Node * node) = 0;
@@ -28,13 +42,32 @@ public:
 
     virtual Node * find(string path) = 0;
 
-    int numberOfFiles() const;
+    virtual int numberOfFiles() = 0;
 
     Iterator * createIterator();
 
+    void setParent(Node * parent){
+        _parent = parent;
+    };
+
+    Node * getParent(){
+        return _parent;
+    }
+    
+    std::vector<std::string *> customSplit(std::string path){
+        std::stringstream ss(path);
+        std::vector<std::string *> tokens;
+        std::string token;
+        while(getline(ss, token, '/')){
+            tokens.push_back(&token);
+        }
+        return tokens;
+    }
+
 private:
-    const std::string _path;
-    const std::string _name;
+    std::string _path;
+    std::string _name;
+    Node * _parent = nullptr;
 };
 
 
