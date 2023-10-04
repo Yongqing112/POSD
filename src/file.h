@@ -37,6 +37,8 @@ public:
         return new NullIterator();
     }
 
+    ~File(){}
+
 private:
 };
 

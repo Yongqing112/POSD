@@ -72,6 +72,8 @@ public:
     FolderIterator * createIterator(){
         return new FolderIterator(this);
     }
+
+    ~Folder(){}
 private:
     vector<Node *> _subNodes;
 };

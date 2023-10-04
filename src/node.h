@@ -64,6 +64,7 @@ public:
         return tokens;
     }
 
+    ~Node(){}
 private:
     std::string _path;
     std::string _name;
