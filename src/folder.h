@@ -31,6 +31,7 @@ public:
     void remove(string path) override {
         for(auto it = this->_subNodes.begin(); it != this->_subNodes.end(); it++){
             if((*it)->path() == path){
+                (*it)->setParent(nullptr);
                 this->_subNodes.erase(it--);
             }
         }

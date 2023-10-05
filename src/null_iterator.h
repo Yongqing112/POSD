@@ -2,9 +2,9 @@
 #define NULL_ITERATOR_H
 
 class NullIterator : public Iterator {
-    void first();
-    Node * currentItem() const;
-    void next();
+    void first(){}
+    Node * currentItem() const{return nullptr;}
+    void next(){}
     bool isDone() const{
         return true;
     }

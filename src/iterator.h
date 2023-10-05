@@ -10,11 +10,11 @@ class Folder;
 
 class Iterator {
 public:
-    ~Iterator(){}
-    void first();
-    Node * currentItem() const;
-    void next();
-    bool isDone() const;
+    Iterator(){}    virtual void first(){}
+    virtual Node * currentItem() const{return nullptr;}
+    virtual void next(){}
+    virtual bool isDone() const{return false;}
+    virtual ~Iterator(){}
 };
 
 class FolderIterator : public Iterator {

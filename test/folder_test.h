@@ -79,10 +79,12 @@ TEST(FolderSuite, AddAndGetChildByNameAndFindInSubNode){
 TEST(FolderSuite, NumberOfFiles){
     Folder * firstFolder = new Folder("/firstFolder");
     Folder * secondFolder = new Folder("/firstFolder/secondFolder");
+    Folder * thirdFolder = new Folder("/firstFolder/secondFolder/thirdFolder");
     Node * firstFile = new File("/firstFolder/firstFile.txt");
     Node * secondFile = new File("/firstFolder/secondFolder/secondFile.txt");
     firstFolder->add(firstFile);
     firstFolder->add(secondFolder);
+    secondFolder->add(thirdFolder);
     FolderIterator * it = firstFolder->createIterator();
     it->first();
     it->next();

@@ -30,7 +30,7 @@ public:
     }
 
     int numberOfFiles() override{
-        return 0;
+        throw "yee";
     }
 
     NullIterator * createIterator(){

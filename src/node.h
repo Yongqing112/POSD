@@ -44,7 +44,9 @@ public:
 
     virtual int numberOfFiles() = 0;
 
-    Iterator * createIterator();
+    virtual Iterator * createIterator(){
+        return nullptr;
+    }
 
     void setParent(Node * parent){
         _parent = parent;
