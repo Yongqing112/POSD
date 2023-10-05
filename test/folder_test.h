@@ -33,6 +33,13 @@ TEST(FolderSuite, AddAndIterator){
     delete it;
 }
 
+TEST(FolderSuite, AddIncorrectPathFileToFolder){
+    Node * firstFolder = new Folder("/firstFolder");
+    Folder * thirdFolder = new Folder("/firstFolder/secondFolder/thirdFolder");
+    ASSERT_ANY_THROW(firstFolder->add(thirdFolder));
+}
+
+
 TEST(FolderSuite, Remove){
     Folder * firstFolder = new Folder("/firstFolder");
     Node * firstFile = new File("/firstFolder/firstFile.txt");

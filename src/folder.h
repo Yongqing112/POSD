@@ -25,6 +25,9 @@ public:
                 node->setParent(this);
                 this->_subNodes.push_back(node);
             }
+            else{
+                throw string("incorret path");
+            }
         }
     }
     
