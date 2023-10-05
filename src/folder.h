@@ -52,9 +52,16 @@ public:
 
     Node * find(string path){
         Node * target = nullptr;
+        Folder * folder;
         for(auto it = this->_subNodes.begin(); it != this->_subNodes.end(); it++){
+            folder = dynamic_cast<Folder *>(*it);
             if((*it)->path() == path){
+                // cout<<(*it)->name()<<endl;
                 target = *it;
+            }
+            else if(target == nullptr && folder){
+                // cout<<folder->name()<<endl;
+                target = folder->find(path);
             }
         }
         return target;

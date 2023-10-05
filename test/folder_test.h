@@ -64,10 +64,17 @@ TEST(FolderSuite, GetChildByName){
 }
 
 TEST(FolderSuite, Find){
-    Folder * firstFolder = new Folder("/firstFolder");
+    Node * firstFolder = new Folder("/firstFolder");
+    Node * secondFolder = new Folder("/firstFolder/secondFolder");
+    Node * thirdFolder = new Folder("/firstFolder/secondFolder/thirdFolder");
     Node * firstFile = new File("/firstFolder/firstFile.txt");
+    Node * secondFile = new File("/firstFolder/secondFolder/secondFile.txt");
     firstFolder->add(firstFile);
-    ASSERT_EQ("/firstFolder/firstFile.txt", firstFolder->find("/firstFolder/firstFile.txt")->path());
+    firstFolder->add(secondFolder);
+    secondFolder->add(thirdFolder);
+    secondFolder->add(secondFile);
+    ASSERT_EQ(firstFile, firstFolder->find("/firstFolder/firstFile.txt"));
+    ASSERT_EQ(secondFile, firstFolder->find("/firstFolder/secondFolder/secondFile.txt"));
 }
 
 TEST(FolderSuite, AddAndGetChildByNameAndFindInSubNode){
@@ -93,9 +100,9 @@ TEST(FolderSuite, NumberOfFiles){
     firstFolder->add(secondFolder);
     secondFolder->add(thirdFolder);
     FolderIterator * it = firstFolder->createIterator();
-    it->first();
-    it->next();
-    it->currentItem()->add(secondFile);
+    it->first();//firstFile
+    it->next();//secondFolder
+    it->currentItem()->add(secondFile);//secondFolder add secondFile
     ASSERT_EQ(2, firstFolder->numberOfFiles());
 }
 
