@@ -32,10 +32,15 @@ public:
     }
     
     void remove(string path) override {
+        Folder * folder;
         for(auto it = this->_subNodes.begin(); it != this->_subNodes.end(); it++){
+            folder = dynamic_cast<Folder *>(*it);
             if((*it)->path() == path){
                 (*it)->setParent(nullptr);
                 this->_subNodes.erase(it--);
+            }
+            else if(folder){
+                folder->remove(path);
             }
         }
     }
@@ -56,11 +61,9 @@ public:
         for(auto it = this->_subNodes.begin(); it != this->_subNodes.end(); it++){
             folder = dynamic_cast<Folder *>(*it);
             if((*it)->path() == path){
-                // cout<<(*it)->name()<<endl;
                 target = *it;
             }
             else if(target == nullptr && folder){
-                // cout<<folder->name()<<endl;
                 target = folder->find(path);
             }
         }

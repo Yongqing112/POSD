@@ -14,7 +14,7 @@ TEST(FolderSuite, CreateFolder){
 }
 
 TEST(FolderSuite, FolderAsNode){
-    Node * firstFolder = new Folder("/firstFolder");
+    Folder * firstFolder = new Folder("/firstFolder");
     ASSERT_EQ("firstFolder", firstFolder->name());
     ASSERT_EQ("/firstFolder", firstFolder->path());
 }
@@ -34,7 +34,7 @@ TEST(FolderSuite, AddAndIterator){
 }
 
 TEST(FolderSuite, AddIncorrectPathFileToFolder){
-    Node * firstFolder = new Folder("/firstFolder");
+    Folder * firstFolder = new Folder("/firstFolder");
     Folder * thirdFolder = new Folder("/firstFolder/secondFolder/thirdFolder");
     ASSERT_ANY_THROW(firstFolder->add(thirdFolder));
 }
@@ -42,16 +42,16 @@ TEST(FolderSuite, AddIncorrectPathFileToFolder){
 
 TEST(FolderSuite, Remove){
     Folder * firstFolder = new Folder("/firstFolder");
+    Folder * secondFolder = new Folder("/firstFolder/secondFolder");
+    Folder * thirdFolder = new Folder("/firstFolder/secondFolder/thirdFolder");
     Node * firstFile = new File("/firstFolder/firstFile.txt");
+    Node * secondFile = new File("/firstFolder/secondFolder/secondFile.txt");
     firstFolder->add(firstFile);
-    FolderIterator * it = firstFolder->createIterator();
-    it->first();
-    ASSERT_FALSE(it->isDone());
-    ASSERT_EQ("firstFile.txt", it->currentItem()->getName());
-    firstFolder->remove("/firstFolder/firstFile.txt");
-    it->first();
-    ASSERT_TRUE(it->isDone());
-    delete it;
+    firstFolder->add(secondFolder);
+    secondFolder->add(thirdFolder);
+    secondFolder->add(secondFile);
+    firstFolder->remove("/firstFolder/secondFolder/secondFile.txt");
+    ASSERT_EQ(nullptr, firstFolder->find("/firstFolder/secondFolder/secondFile.txt"));
 }
 
 TEST(FolderSuite, GetChildByName){
@@ -64,9 +64,9 @@ TEST(FolderSuite, GetChildByName){
 }
 
 TEST(FolderSuite, Find){
-    Node * firstFolder = new Folder("/firstFolder");
-    Node * secondFolder = new Folder("/firstFolder/secondFolder");
-    Node * thirdFolder = new Folder("/firstFolder/secondFolder/thirdFolder");
+    Folder * firstFolder = new Folder("/firstFolder");
+    Folder * secondFolder = new Folder("/firstFolder/secondFolder");
+    Folder * thirdFolder = new Folder("/firstFolder/secondFolder/thirdFolder");
     Node * firstFile = new File("/firstFolder/firstFile.txt");
     Node * secondFile = new File("/firstFolder/secondFolder/secondFile.txt");
     firstFolder->add(firstFile);
