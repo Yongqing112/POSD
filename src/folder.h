@@ -83,7 +83,6 @@ public:
                 count -= 1;
             }
         }
-        cout <<count << endl;
         return count;
     };
 

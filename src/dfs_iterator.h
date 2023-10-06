@@ -3,6 +3,7 @@
 
 #pragma once
 #include <vector>
+#include <stack>
 
 class Node;
 class Folder;
@@ -25,6 +26,8 @@ private:
     Node * _composite;
     std::vector<Node *>::iterator _it;
     std::vector<Node *>::iterator _parent;
+    std::stack<std::vector<Node *>::iterator> mystack;
+    int folderCount = 0;
 };
 
 class BfsIterator: public Iterator {
