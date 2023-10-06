@@ -10,6 +10,7 @@
 using namespace std;
 
 class Node {
+    friend class FolderIterator;
     friend class DfsIterator;
 public:
     Node(std::string path)
@@ -68,11 +69,11 @@ public:
     }
 
     virtual ~Node(){}
+    vector<Node *> subNodes;
 private:
     std::string _path;
     std::string _name;
     Node * _parent = nullptr;
-    vector<Node *> _subNodes;
 };
 
 

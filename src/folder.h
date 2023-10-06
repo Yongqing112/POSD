@@ -11,6 +11,7 @@ using namespace std;
 
 class Folder: public Node {
     friend class FolderIterator;
+    friend class DfsIterator;
 public:
     Folder(std::string path)
     :Node(path)
@@ -25,6 +26,7 @@ public:
             if(nodePath == thisPath){
                 node->setParent(this);
                 this->_subNodes.push_back(node);
+                subNodes = _subNodes;
             }
             else{
                 throw string("incorret path");
@@ -87,10 +89,6 @@ public:
     FolderIterator * createIterator(){
         return new FolderIterator(this);
     }
-
-    // DfsIterator * createIterator(){
-    //     return new DfsIterator(this);
-    // }
 
     ~Folder(){}
 private:

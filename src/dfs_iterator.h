@@ -24,6 +24,7 @@ public:
 private:
     Node * _composite;
     std::vector<Node *>::iterator _it;
+    std::vector<Node *>::iterator _parent;
 };
 
 class BfsIterator: public Iterator {

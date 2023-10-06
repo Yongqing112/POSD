@@ -27,11 +27,15 @@ DfsIterator::DfsIterator(Node * composite)
     {}
 
 void DfsIterator::first(){
-    _it = _composite->_subNodes.begin();
+    // for(auto it = _composite->subNodes.begin(); it != _composite->subNodes.end(); it++){
+    //     cout << "just :" + (*it)->path() << endl;
+    // }
+    
+    _it = _composite->subNodes.begin();
 }
 
 bool DfsIterator::isDone() const{
-    return _it == _composite->_subNodes.end();
+    return _it == _composite->subNodes.end();
 }
 
 Node * DfsIterator::currentItem() const{
@@ -39,7 +43,34 @@ Node * DfsIterator::currentItem() const{
 }
 
 void DfsIterator::next(){
-    _it++;
+    Folder * folder;
+    folder = dynamic_cast<Folder *>(*_it);
+    if(folder){
+        cout<< "folder : " + folder->path() << endl;
+        if(this->currentItem()->subNodes.begin() != this->currentItem()->subNodes.end()){
+            _parent = _it;
+            _it = this->currentItem()->subNodes.begin();
+            cout<< "next folder : " + (*_it)->path() << endl << endl;
+        }
+        else{
+            _it = _parent;
+            _it = this->currentItem()->subNodes.begin();
+            _it++;
+            cout<< "next folder : " + (*_it)->path() << endl << endl;
+        }
+    }
+    else{
+        cout<< "file : " + (*_it)->path() << endl;
+        if(this->currentItem()->subNodes.begin() != this->currentItem()->subNodes.end()){
+            _it++;
+            cout<< "next file : " + (*_it)->path() << endl << endl;
+        }
+        else{
+            _it = _parent;
+            cout<< "next file : " + (*_it)->path() << endl << endl;
+        }
+        
+    }
 }
 
 BfsIterator::BfsIterator(Node * composite)

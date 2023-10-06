@@ -48,9 +48,23 @@ TEST(IteratorSuite, SetParent){
 }
 
 TEST(Iterator, DFS){
-    Folder * firstFolder = new Folder("/firstFolder");
+    Node * firstFolder = new Folder("/firstFolder");
+    Node * secondFolder = new Folder("/firstFolder/secondFolder");
+    Folder * thirdFolder = new Folder("/firstFolder/secondFolder/thirdFolder");
+    File * firstFile = new File("/firstFolder/firstFile.txt");
+    File * secondFile = new File("/firstFolder/secondFolder/secondFile.txt");
     DfsIterator * it = new DfsIterator(firstFolder);
-    it->first();
-    ASSERT_TRUE(it->isDone());
+    firstFolder->add(secondFolder);
+    firstFolder->add(firstFile);
+    secondFolder->add(thirdFolder);
+    secondFolder->add(secondFile);
+    it->first();//secondFolder 
+    ASSERT_FALSE(it->isDone());
+    it->next();//thirdFolder
+    ASSERT_FALSE(it->isDone());
+    it->next();//secondFile
+    ASSERT_FALSE(it->isDone());
+    it->next();//firstFile
+
     
 }
