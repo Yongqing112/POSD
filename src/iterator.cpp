@@ -44,51 +44,50 @@ Node * DfsIterator::currentItem() const{
 }
 
 void DfsIterator::next(){
-    _it++;
-    // Folder * folder;
-    // folder = dynamic_cast<Folder *>(*_it);
-    // _parent = _it;
-    // if(folder){
-    //     if(this->currentItem()->numberOfFiles() != 0){
-    //         folderCount = this->currentItem()->numberOfFiles();
-    //         cout<< folderCount << endl;
-    //         cout<< "now folder : " + (*_it)->path() << endl;
-    //         mystack.push(_it);
-    //         _it = this->currentItem()->subNodes.begin();
-    //         cout<< "next folder : " + (*_it)->path() << endl;
-    //     }
-    //     else if(){
-
-    //     }
-    //     else{
-    //         _it = mystack.top();
-    //         mystack.pop();
-    //         cout<< "go back folder : " + (*_it)->path() << endl;
-    //         mystack.push(_it);
-    //         _it = this->currentItem()->subNodes.begin();
-    //         if(folder = dynamic_cast<Folder *>(*_it)){
-    //             folderCount -= 1;
-    //         }
-    //         _it++;
-    //         cout<< "next folder : " + (*_it)->path() << endl;
-    //     }
-    // }
-    // else{
-    //     //cout<< folderCount << endl;
-    //     cout<< "now folder : " + (*_it)->path() << endl;
-    //     if(folderCount != 0){
-    //         _it++;
-    //         folderCount -= 1;
-    //         cout<< folderCount << endl;
-    //         cout<< "next folder : " + (*_it)->path() << endl;
-    //     }
-    //     else{
-    //         cout<< "go back folder : " + (*_it)->path() << endl;
-    //         _it = mystack.top();
-    //         mystack.pop();
-    //         cout<< "next folder : " + (*_it)->path() << endl;
-    //     }
-    // }
+    Folder * folder;
+    folder = dynamic_cast<Folder *>(*_it);
+    _parent = _it;
+    if(folder){
+        if(this->currentItem()->numberOfFiles() != 0){
+            folderCount = this->currentItem()->numberOfFiles();
+            cout<< folderCount << endl;
+            cout<< "now folder : " + (*_it)->path() << endl;
+            mystack.push(_it);
+            _it = this->currentItem()->subNodes.begin();
+            cout<< "next folder : " + (*_it)->path() << endl;
+        }
+        else{
+            cout<< "now folder : " + (*_it)->path() << endl;
+            if(!mystack.empty()){
+                _it = mystack.top();
+                mystack.pop();
+                cout<< "go back folder : " + (*_it)->path() << endl;
+                mystack.push(_it);
+                _it = this->currentItem()->subNodes.begin();
+                if(folder = dynamic_cast<Folder *>(*_it)){
+                    folderCount -= 1;
+                }
+            }
+            _it++;
+            cout<< "next folder : " + (*_it)->path() << endl;
+        }
+    }
+    else{
+        //cout<< folderCount << endl;
+        cout<< "now folder : " + (*_it)->path() << endl;
+        if(folderCount != 0){
+            _it++;
+            folderCount -= 1;
+            cout<< folderCount << endl;
+            cout<< "next folder : " + (*_it)->path() << endl;
+        }
+        else{
+            cout<< "go back folder : " + (*_it)->path() << endl;
+            _it = mystack.top();
+            mystack.pop();
+            cout<< "next folder : " + (*_it)->path() << endl;
+        }
+    }
 
     // if(folder){
     //     cout<< "folder : " + folder->path() << endl;
