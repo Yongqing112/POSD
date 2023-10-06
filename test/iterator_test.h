@@ -46,3 +46,11 @@ TEST(IteratorSuite, SetParent){
     ASSERT_EQ(firstFolder, parent);
     delete it;
 }
+
+TEST(Iterator, DFS){
+    Folder * firstFolder = new Folder("/firstFolder");
+    DfsIterator * it = new DfsIterator(firstFolder);
+    it->first();
+    ASSERT_FALSE(it->isDone());
+    
+}

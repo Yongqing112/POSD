@@ -23,25 +23,25 @@ void FolderIterator::next(){
 }
 
 DfsIterator::DfsIterator(Node * composite)
-    :_composite(composite)
+    : _composite(composite)
     {}
 
-// void DfsIterator::first(){
-//     // _it = _composite->_subNodes.begin();
-// }
+void DfsIterator::first(){
+    _it = _composite->_subNodes.begin();
+}
 
-// bool DfsIterator::isDone() const{
-//     return false;//_it == _composite->_subNodes.end();
-// }
+bool DfsIterator::isDone() const{
+    return _it == _composite->_subNodes.end();
+}
 
-// Node * DfsIterator::currentItem() const{
-//     return *_it;
-// }
+Node * DfsIterator::currentItem() const{
+    return *_it;
+}
 
-// void DfsIterator::next(){
-//     _it++;
-// }
+void DfsIterator::next(){
+    _it++;
+}
 
 BfsIterator::BfsIterator(Node * composite)
-    :_composite(composite)
+    : _composite(composite)
     {}

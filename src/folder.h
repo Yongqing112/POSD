@@ -3,6 +3,7 @@
 #pragma once
 #include "./node.h"
 #include "./iterator.h"
+#include "./dfs_iterator.h"
 #include <vector>
 #include <iostream>
 
@@ -86,6 +87,10 @@ public:
     FolderIterator * createIterator(){
         return new FolderIterator(this);
     }
+
+    // DfsIterator * createIterator(){
+    //     return new DfsIterator(this);
+    // }
 
     ~Folder(){}
 private:

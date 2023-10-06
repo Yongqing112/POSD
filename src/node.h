@@ -10,6 +10,7 @@
 using namespace std;
 
 class Node {
+    friend class DfsIterator;
 public:
     Node(std::string path)
     :_path(path)
@@ -71,6 +72,7 @@ private:
     std::string _path;
     std::string _name;
     Node * _parent = nullptr;
+    vector<Node *> _subNodes;
 };
 
 

@@ -11,13 +11,13 @@ class DfsIterator: public Iterator {
 public:
     DfsIterator(Node* composite);
 
-    void first(){}
+    void first();
 
-    Node * currentItem() const{return nullptr;};
+    Node * currentItem() const;
 
-    void next(){}
+    void next();
     
-    bool isDone() const{return false;};
+    bool isDone() const;
 
     ~DfsIterator(){}
 
