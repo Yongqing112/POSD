@@ -56,7 +56,8 @@ void DfsIterator::next(){
             _parent = _it;
             cout<< "parent folder : " + (* _parent)->path() << endl;
             _it = this->currentItem()->subNodes.begin();
-            cout<< "next folder : " + (*_it)->path() << endl << endl;
+            cout<< "next folder : " + (*_it)->path() << endl ;
+            cout<< "next name : " + (*_it)->name() << endl << endl;
         }
         else{// don't have sub nodes, so go to next file or folder
             location = std::distance(father->subNodes.begin(), _it);
@@ -66,7 +67,8 @@ void DfsIterator::next(){
 
             if((father->subNodes.begin() + location + 1) != father->subNodes.end()){
                 _it = father->subNodes.begin() + location + 1;
-                cout<< "next file : " + (*_it)->path() << endl << endl;
+                cout<< "next file : " + (*_it)->path() << endl ;
+            cout<< "next name : " + (*_it)->name() << endl << endl;
             }
             else{
                 cout<< "end file : " + (*_it)->path() << endl << endl;
@@ -78,7 +80,8 @@ void DfsIterator::next(){
         cout<< "now file : " + (*_it)->path() << endl<< endl;
         if(this->currentItem()->subNodes.begin() != this->currentItem()->subNodes.end()){
             _it++;
-            cout<< "next file : " + (*_it)->path() << endl << endl;
+            cout<< "next file : " + (*_it)->path() << endl ;
+            cout<< "next name : " + (*_it)->name() << endl << endl;
         }
         else{
             father = (*_it)->getParent();
@@ -98,7 +101,8 @@ void DfsIterator::next(){
                 // _parent = 
 
                 _it = grandfather->subNodes.begin() + location + 1;;
-                cout<< "next file : " + (*_it)->path() << endl << endl;
+                cout<< "next file : " + (*_it)->path() << endl ;
+                cout<< "next name : " + (*_it)->name() << endl << endl;
                 
                 if(nullptr != grandfather->getParent()){
                     for(auto it = grandfather->getParent()->subNodes.begin(); it != grandfather->getParent()->subNodes.end(); it++){
@@ -116,11 +120,13 @@ void DfsIterator::next(){
 
                 if((father->subNodes.begin() + location + 1) != father->subNodes.end()){
                     _it = father->subNodes.begin() + location + 1;
-                    cout<< "next file : " + (*_it)->path() << endl << endl;
+                    cout<< "next file : " + (*_it)->path() << endl ;
+                    cout<< "next name : " + (*_it)->name() << endl << endl;
                 }
                 else{
                     cout<< "end file : " + (*_it)->path() << endl << endl;
                     _it++;
+                    
                 }
             }
         }
