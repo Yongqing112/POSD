@@ -33,10 +33,14 @@ private:
 class BfsIterator: public Iterator {
 public:
     BfsIterator(Node* composite);
-    void first(){}
-    Node * currentItem() const{return nullptr;}
-    void next(){}
-    bool isDone() const{return false;}
+    void first();
+
+    Node * currentItem() const;
+
+    void next();
+    
+    bool isDone() const;
+
     ~BfsIterator(){}
 
 private:
