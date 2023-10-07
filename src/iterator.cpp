@@ -134,60 +134,30 @@ void BfsIterator::next(){
     Node * father;
     if(folder){
         father = (*_it)->getParent();
-
-        cout << "now folder : " + (*_it)->path() << endl << endl;
-        cout<< "parent folder : " + father->path() << endl;
-
-
         if(!(*_it)->subNodes.empty()){
-            cout<< "queue push : " + (*(*_it)->subNodes.begin())->path() << endl;
             _queue.push_back((*_it)->subNodes.begin());
         }
-
         if((_it + 1) == father->subNodes.end()){
             _it = _queue.front();
-
-            cout<< "queue remove : " + (**_queue.begin())->path() << endl;
             _queue.erase(_queue.begin());
-
-            for(auto it = _queue.begin(); it != _queue.end(); it++){
-                cout<< "queue exist : " + (**it)->path() << endl;
-            }
-
-            cout << "next folder : " + (*_it)->path() << endl << endl;
         }
         else{
             _it++;
-            cout << "next folder : " + (*_it)->path() << endl << endl;
         }
     }
     else{
         father = (*_it)->getParent();
-        cout << "now file : " + (*_it)->path() << endl << endl;
-        cout<< "parent folder : " + father->path() << endl;
-
         if((_it + 1) == father->subNodes.end()){
-            
             if(!_queue.empty()){
                 _it = _queue.front();
-
-                cout<< "queue remove : " + (**_queue.begin())->path() << endl;
                 _queue.erase(_queue.begin());
-
-                for(auto it = _queue.begin(); it != _queue.end(); it++){
-                    cout<< "queue exist : " + (**it)->path() << endl;
-                }
-                
-                cout << "next folder : " + (*_it)->path() << endl << endl;
             }
             else{
-                cout<< "end file : " + (*_it)->path() << endl << endl;
                 _it =  _composite->subNodes.end();
             }
         }
         else{
             _it++;
-            cout << "next folder : " + (*_it)->path() << endl << endl;
         }
     }
 }
