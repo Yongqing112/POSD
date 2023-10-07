@@ -1,7 +1,7 @@
 .vscode
 
-bin/
-obj/
+bin
+obj
 
 #Mac Os
 .DS_Store
