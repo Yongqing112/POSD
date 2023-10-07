@@ -28,10 +28,6 @@ DfsIterator::DfsIterator(Node * composite)
     {}
 
 void DfsIterator::first(){
-    // for(auto it = _composite->subNodes.begin(); it != _composite->subNodes.end(); it++){
-    //     cout << "just :" + (*it)->path() << endl;
-    // }
-    
     _it = _composite->subNodes.begin();
 }
 
@@ -132,76 +128,25 @@ void DfsIterator::next(){
         }
     }
     
-    // if(folder){
-    //     if(){
-    //         allNodes.push_back(*_it);
-    //     }
-    //     for(auto it = this->currentItem()->subNodes.begin(); it != this->currentItem()->subNodes.end(); it++){
-    //         cout<< "push : " + (*it)->path()<< endl;
-    //         allNodes.push_back(*it);
-    //     }
-    //     if(this->currentItem()->subNodes.begin() == this->currentItem()->subNodes.end()){
-    //         _it++;
-    //     }
-    //     else{
-    //         _it = this->currentItem()->subNodes.begin();
-    //     } 
-    //     cout<< "next folder : " + (*_it)->path() << endl;
-    // }
-    // else{
-    //     cout<< "push : " + (*_it)->path()<< endl;
-    //     allNodes.push_back(*_it);
-    //     _it++;
-    // }
-
-    // for(auto it = allNodes.begin(); it != allNodes.end(); it++){
-    //     cout<< "vector exist : " + (*it)->path() << endl;
-    // }
-
-    // if(folder){
-    //     if(this->currentItem()->numberOfFiles() != 0){
-    //         folderCount = this->currentItem()->numberOfFiles();
-    //         cout<< folderCount << endl;
-    //         cout<< "now folder : " + (*_it)->path() << endl;
-    //         mystack.push(_it);
-    //         _it = this->currentItem()->subNodes.begin();
-    //         cout<< "next folder : " + (*_it)->path() << endl;
-    //     }
-    //     else{
-    //         cout<< "now folder : " + (*_it)->path() << endl;
-    //         if(!mystack.empty()){
-    //             _it = mystack.top();
-    //             mystack.pop();
-    //             cout<< "go back folder : " + (*_it)->path() << endl;
-    //             mystack.push(_it);
-    //             _it = this->currentItem()->subNodes.begin();
-    //             if(folder = dynamic_cast<Folder *>(*_it)){
-    //                 folderCount -= 1;
-    //             }
-    //         }
-    //         _it++;
-    //         cout<< "next folder : " + (*_it)->path() << endl;
-    //     }
-    // }
-    // else{
-    //     //cout<< folderCount << endl;
-    //     cout<< "now folder : " + (*_it)->path() << endl;
-    //     if(folderCount != 0){
-    //         _it++;
-    //         folderCount -= 1;
-    //         cout<< folderCount << endl;
-    //         cout<< "next folder : " + (*_it)->path() << endl;
-    //     }
-    //     else{
-    //         cout<< "go back folder : " + (*_it)->path() << endl;
-    //         _it = mystack.top();
-    //         mystack.pop();
-    //         cout<< "next folder : " + (*_it)->path() << endl;
-    //     }
-    // }
 
 }
 
 BfsIterator::BfsIterator(Node * composite)
     : _composite(composite)
     {}
+
+void BfsIterator::first(){
+    _it = _composite->subNodes.begin();
+}
+
+bool BfsIterator::isDone() const{
+    return _it == _composite->subNodes.end();
+}
+
+Node * BfsIterator::currentItem() const{
+    return *_it;
+}
+
+void BfsIterator::next(){
+    _it++;
+}
