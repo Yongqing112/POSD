@@ -30,7 +30,7 @@ public:
     }
 
     int numberOfFiles() const override{
-        throw "yee";
+        throw string("this is a file.");
     }
 
     NullIterator * createIterator(){

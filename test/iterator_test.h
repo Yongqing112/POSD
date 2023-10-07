@@ -85,29 +85,43 @@ TEST(Iterator, DFS){
     
     cout << "first ------ forthFolder" << endl << endl;
     it->first();//forthFolder
-    
+    ASSERT_EQ("forthFolder", it->currentItem()->name());
+    ASSERT_EQ("/firstFolder/forthFolder", it->currentItem()->path());
+
     cout << "go to ------ secondFolder" << endl;
     it->next();//secondFolder 
+    ASSERT_EQ("secondFolder", it->currentItem()->name());
+    ASSERT_EQ("/firstFolder/secondFolder", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
     
     cout << "go to ------ thirdFolder" << endl;
     it->next();//thirdFolder
+    ASSERT_EQ("thirdFolder", it->currentItem()->name());
+    ASSERT_EQ("/firstFolder/secondFolder/thirdFolder", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
     
     cout << "go to ------ thirdFile" << endl;
     it->next();//thirdFile
+    ASSERT_EQ("thirdFile.txt", it->currentItem()->name());
+    ASSERT_EQ("/firstFolder/secondFolder/thirdFolder/thirdFile.txt", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
     
     cout << "go to ------ secondFile" << endl;
     it->next();//secondFile
+    ASSERT_EQ("secondFile.txt", it->currentItem()->name());
+    ASSERT_EQ("/firstFolder/secondFolder/secondFile.txt", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
     
     cout << "go to ------ firstFile" << endl;
     it->next();//firstFile
+    ASSERT_EQ("firstFile.txt", it->currentItem()->name());
+    ASSERT_EQ("/firstFolder/firstFile.txt", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
 
     cout<< "go to ------ fifthFolder" << endl;
     it->next();
+    ASSERT_EQ("fifthFolder", it->currentItem()->name());
+    ASSERT_EQ("/firstFolder/fifthFolder", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
 
     cout<< "go to ------ ???????????" << endl;
