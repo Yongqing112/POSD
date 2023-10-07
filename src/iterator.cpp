@@ -88,7 +88,7 @@ void DfsIterator::next(){
                 // cout<< (*ita)->path()<< endl;
                 
                 for(auto it = father->subNodes.begin(); it != father->subNodes.end(); it++){
-                    cout<< (*it)->path();
+                    cout<< "---------------------" + (*it)->path() << endl;
                 }
 
                 cout<< "grandparent folder : " + grandfather->path() <<endl;
