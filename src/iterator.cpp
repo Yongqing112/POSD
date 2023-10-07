@@ -3,7 +3,6 @@
 #include "./iterator.h"
 #include "./null_iterator.h"
 #include "./dfs_iterator.h"
-#include <stack>
 
 FolderIterator::FolderIterator(Folder * composite)
     : _composite(composite)

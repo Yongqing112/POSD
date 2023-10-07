@@ -1,11 +1,8 @@
-#if !defined(FOLDER)
-#define FOLDER
 #pragma once
 #include "./node.h"
 #include "./iterator.h"
 #include "./dfs_iterator.h"
 #include <vector>
-#include <iostream>
 
 using namespace std;
 
@@ -94,6 +91,3 @@ public:
 private:
     vector<Node *> _subNodes;
 };
-
-
-#endif // FOLDER
