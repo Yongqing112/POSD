@@ -88,7 +88,6 @@ void DfsIterator::next(){
             if(nullptr != grandfather){ // have grandfather
                 if(_it+1 == father->subNodes.end()){
                     location = std::distance(grandfather->subNodes.begin(), _parent);
-                    _it = grandfather->subNodes.begin() + location + 1;;
                     
                     for(auto it = father->subNodes.begin(); it != father->subNodes.end(); it++){
                         cout<< "---------------------" + (*it)->path() << endl;
@@ -99,12 +98,14 @@ void DfsIterator::next(){
                     cout<< "parent location in grandparent : ";
                     cout<< location << endl<< endl;
 
-                    if(_it != grandfather->subNodes.end()){
+                    if((grandfather->subNodes.begin() + location + 1) != grandfather->subNodes.end()){
+                        _it = grandfather->subNodes.begin() + location + 1;
                         cout<< "next file : " + (*_it)->path() << endl ;
                         cout<< "next name : " + (*_it)->name() << endl << endl;
                     }
                     else{
                         cout<< "end file : " + (*_it)->path() << endl << endl;
+                        _it = grandfather->subNodes.end();
                     }
                     
                     if(nullptr != grandfather->getParent()){
