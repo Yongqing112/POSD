@@ -96,8 +96,13 @@ void DfsIterator::next(){
                     cout<< "parent location in grandparent : ";
                     cout<< location << endl<< endl;
 
-                    cout<< "next file : " + (*_it)->path() << endl ;
-                    cout<< "next name : " + (*_it)->name() << endl << endl;
+                    if(_it != grandfather->subNodes.end()){
+                        cout<< "next file : " + (*_it)->path() << endl ;
+                        cout<< "next name : " + (*_it)->name() << endl << endl;
+                    }
+                    else{
+                        cout<< "end file : " + (*_it)->path() << endl << endl;
+                    }
                     
                     if(nullptr != grandfather->getParent()){
                         for(auto it = grandfather->getParent()->subNodes.begin(); it != grandfather->getParent()->subNodes.end(); it++){
@@ -177,7 +182,7 @@ void BfsIterator::next(){
             for(auto it = _queue.begin(); it != _queue.end(); it++){
                 cout<< "queue exist : " + (**it)->path() << endl;
             }
-            
+
             cout << "next folder : " + (*_it)->path() << endl << endl;
         }
         else{
