@@ -1,6 +1,7 @@
 #include "./folder.h"
 #include "./node.h"
 #include "./iterator.h"
+#include "./null_iterator.h"
 #include "./dfs_iterator.h"
 #include <stack>
 
@@ -22,6 +23,18 @@ Node * FolderIterator::currentItem() const{
 void FolderIterator::next(){
     _it++;
 }
+
+void NullIterator::first(){}
+
+bool NullIterator::isDone() const{
+    return true;;
+}
+
+Node * NullIterator::currentItem() const{
+    return nullptr;
+}
+
+void NullIterator::next(){}
 
 DfsIterator::DfsIterator(Node * composite)
     : _composite(composite)

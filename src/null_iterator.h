@@ -1,13 +1,14 @@
 #if !defined(NULL_ITERATOR_H)
 #define NULL_ITERATOR_H
 
+class Node;
+
 class NullIterator : public Iterator {
-    void first(){}
-    Node * currentItem() const{return nullptr;}
-    void next(){}
-    bool isDone() const{
-        return true;
-    }
+public:
+    void first();
+    Node * currentItem() const;
+    void next();
+    bool isDone() const;
     ~NullIterator(){}
 };
 

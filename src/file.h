@@ -1,5 +1,3 @@
-#if !defined(FILE_H)
-#define FILE_H
 #pragma once
 #include "./node.h"
 #include "./iterator.h"
@@ -20,13 +18,11 @@ public:
     }
 
     Node * getChildByName(const char * name) const override{
-        Node * target = nullptr;
-        return target;
+        return nullptr;
     }
 
     Node * find(string path){
-        Node * target = nullptr;
-        return target;
+        return nullptr;
     }
 
     int numberOfFiles() const override{
@@ -38,8 +34,4 @@ public:
     }
 
     ~File(){}
-
-private:
 };
-
-#endif // FILE_H

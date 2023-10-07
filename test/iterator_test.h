@@ -1,6 +1,8 @@
 #include "../src/file.h"
 #include "../src/folder.h"
 #include "../src/iterator.h"
+#include "../src/null_iterator.h"
+#include "../src/dfs_iterator.h"
 
 class IteratorSuite : public ::testing::Test {
 protected:
@@ -57,6 +59,11 @@ TEST_F(IteratorSuite, IsDone){
     FolderIterator * it = firstFolder->createIterator();
     it->first();//firstFile
     it->next();
+    ASSERT_TRUE(it->isDone());
+}
+
+TEST_F(IteratorSuite, NullIterator){
+    NullIterator * it = firstFile->createIterator();
     ASSERT_TRUE(it->isDone());
 }
 
