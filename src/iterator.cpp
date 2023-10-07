@@ -83,33 +83,34 @@ void DfsIterator::next(){
             father = (*_it)->getParent();
             grandfather = father->getParent();
             if(nullptr != grandfather){ // have grandfather
-                location = std::distance(grandfather->subNodes.begin(), _parent);
-                // auto ita = (*_it)->getParent()->subNodes.begin();
-                // cout<< (*ita)->path()<< endl;
-                
-                for(auto it = father->subNodes.begin(); it != father->subNodes.end(); it++){
-                    cout<< "---------------------" + (*it)->path() << endl;
-                }
+                if(_it+1 == father->subNodes.end()){
+                    location = std::distance(grandfather->subNodes.begin(), _parent);
+                    _it = grandfather->subNodes.begin() + location + 1;;
+                    
+                    for(auto it = father->subNodes.begin(); it != father->subNodes.end(); it++){
+                        cout<< "---------------------" + (*it)->path() << endl;
+                    }
 
-                cout<< "grandparent folder : " + grandfather->path() <<endl;
-                cout<< "parent folder : " + (*_parent)->path() << endl;
-                cout<< "parent location in grandparent : ";
-                cout<< location << endl<< endl;
+                    cout<< "grandparent folder : " + grandfather->path() <<endl;
+                    cout<< "parent folder : " + (*_parent)->path() << endl;
+                    cout<< "parent location in grandparent : ";
+                    cout<< location << endl<< endl;
 
-                // location = std::distance((*_it)->getParent()->subNodes.begin(), _parent);
-                // father->find((*_it)->getParent());
-                // _parent = 
-
-                _it = grandfather->subNodes.begin() + location + 1;;
-                cout<< "next file : " + (*_it)->path() << endl ;
-                cout<< "next name : " + (*_it)->name() << endl << endl;
-                
-                if(nullptr != grandfather->getParent()){
-                    for(auto it = grandfather->getParent()->subNodes.begin(); it != grandfather->getParent()->subNodes.end(); it++){
-                        if((*it)->path() == grandfather->path()){
-                            _parent = it;
+                    cout<< "next file : " + (*_it)->path() << endl ;
+                    cout<< "next name : " + (*_it)->name() << endl << endl;
+                    
+                    if(nullptr != grandfather->getParent()){
+                        for(auto it = grandfather->getParent()->subNodes.begin(); it != grandfather->getParent()->subNodes.end(); it++){
+                            if((*it)->path() == grandfather->path()){
+                                _parent = it;
+                            }
                         }
                     }
+                }
+                else{
+                    _it++;
+                    cout<< "next file : " + (*_it)->path() << endl ;
+                    cout<< "next name : " + (*_it)->name() << endl << endl;
                 }
             }
             else{ // only have father
