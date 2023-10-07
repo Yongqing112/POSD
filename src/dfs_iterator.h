@@ -26,7 +26,7 @@ private:
     Node * _composite;
     std::vector<Node *>::iterator _it;
     std::vector<Node *>::iterator _parent;
-    std::stack<std::vector<Node *>::iterator> mystack;
+    std::vector<Node *> allNodes;
     int folderCount = 0;
 };
 

@@ -47,35 +47,72 @@ TEST(IteratorSuite, SetParent){
     delete it;
 }
 
+TEST(Iterator, IsDone){
+    Folder * firstFolder = new Folder("/firstFolder");
+    File * firstFile = new File("/firstFolder/firstFile.txt");
+    firstFolder->add(firstFile);
+
+    FolderIterator * it = firstFolder->createIterator();
+
+    it->first();//firstFile
+    it->next();
+    ASSERT_TRUE(it->isDone());
+}
+
 TEST(Iterator, DFS){
     Node * firstFolder = new Folder("/firstFolder");
     Node * secondFolder = new Folder("/firstFolder/secondFolder");
     Node * thirdFolder = new Folder("/firstFolder/secondFolder/thirdFolder");
     Node * forthFolder = new Folder("/firstFolder/forthFolder");
+    Node * fifthFolder = new Folder("/firstFolder/fifthFolder");
+    
     Node * firstFile = new File("/firstFolder/firstFile.txt");
     Node * secondFile = new File("/firstFolder/secondFolder/secondFile.txt");
-    Node * thirdFile = new File("/firstFolder/secondFolder/thirdFile.txt");
+    Node * thirdFile = new File("/firstFolder/secondFolder/thirdFolder/thirdFile.txt");
+    // Node * forthFile = new File("/firstFolder/forthFile.txt");
+    
     DfsIterator * it = new DfsIterator(firstFolder);
+    
     firstFolder->add(forthFolder);
     firstFolder->add(secondFolder);
     firstFolder->add(firstFile);
+    firstFolder->add(fifthFolder);
+    
     secondFolder->add(thirdFolder);
     secondFolder->add(secondFile);
-    secondFolder->add(thirdFile);
-    cout << "first ------ forthFolder" << endl;
+    
+    thirdFolder->add(thirdFile);
+    
+    cout << "first ------ forthFolder" << endl << endl;
     it->first();//forthFolder
-    cout << "now ------ secondFolder" << endl;
+    
+    cout << "go to ------ secondFolder" << endl;
     it->next();//secondFolder 
     ASSERT_FALSE(it->isDone());
-    cout << "now ------ thirdFolder" << endl;
+    
+    cout << "go to ------ thirdFolder" << endl;
     it->next();//thirdFolder
     ASSERT_FALSE(it->isDone());
-    cout << "now ------ secondFile" << endl;
-    it->next();//secondFile
-    ASSERT_FALSE(it->isDone());
-    cout << "now ------ thirdFile" << endl;
+    
+    cout << "go to ------ thirdFile" << endl;
     it->next();//thirdFile
     ASSERT_FALSE(it->isDone());
-    cout << "now ------ firstFile" << endl;
+    
+    cout << "go to ------ secondFile" << endl;
+    it->next();//secondFile
+    ASSERT_FALSE(it->isDone());
+    
+    cout << "go to ------ firstFile" << endl;
     it->next();//firstFile
+    ASSERT_FALSE(it->isDone());
+
+    cout<< "go to ------ fifthFolder" << endl;
+    it->next();
+    ASSERT_FALSE(it->isDone());
+
+    cout<< "go to ------ ???????????" << endl;
+    it->next();
+    ASSERT_TRUE(it->isDone());
+
+    delete it;
 }

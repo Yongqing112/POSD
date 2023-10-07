@@ -73,7 +73,7 @@ public:
         return target;
     }
 
-    int numberOfFiles() override{
+    int numberOfFiles() const override{
         int count = this->_subNodes.size();
         Folder * folder;
         for(auto it = this->_subNodes.begin(); it != this->_subNodes.end(); it++){

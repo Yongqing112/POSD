@@ -44,7 +44,7 @@ public:
 
     virtual Node * find(string path) = 0;
 
-    virtual int numberOfFiles() = 0;
+    virtual int numberOfFiles() const = 0;
 
     virtual Iterator * createIterator(){
         return nullptr;

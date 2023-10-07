@@ -29,7 +29,7 @@ public:
         return target;
     }
 
-    int numberOfFiles() override{
+    int numberOfFiles() const override{
         throw "yee";
     }
 
