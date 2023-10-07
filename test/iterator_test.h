@@ -2,7 +2,25 @@
 #include "../src/folder.h"
 #include "../src/iterator.h"
 
-TEST(IteratorSuite, AddAndGetChildByNameAndFindInSubNode){
+class IteratorSuite : public ::testing::Test {
+protected:
+    void SetUp() override {}
+
+    Folder * firstFolder = new Folder("/firstFolder");
+    Folder * secondFolder = new Folder("/firstFolder/secondFolder");
+    Folder * thirdFolder = new Folder("/firstFolder/secondFolder/thirdFolder");
+    Folder * forthFolder = new Folder("/firstFolder/forthFolder");
+    Folder * fifthFolder = new Folder("/firstFolder/fifthFolder");
+    Folder * sixthFolder = new Folder("/firstFolder/secondFolder/sixthFolder");
+    Folder * seventhFolder = new Folder("/firstFolder/fifthFolder/seventhFolder");
+    
+    File * firstFile = new File("/firstFolder/firstFile.txt");
+    File * secondFile = new File("/firstFolder/secondFolder/secondFile.txt");
+    File * thirdFile = new File("/firstFolder/secondFolder/thirdFolder/thirdFile.txt");
+    File * forthFile = new File("/firstFolder/fifthFolder/forthFile.txt");
+};
+
+TEST_F(IteratorSuite, AddAndGetChildByNameAndFindInSubNode){
     Folder * firstFolder = new Folder("/firstFolder");
     Folder * secondFolder = new Folder("/firstFolder/secondFolder");
     File * firstFile = new File("/firstFolder/secondFolder/firstFile.txt");
@@ -15,7 +33,7 @@ TEST(IteratorSuite, AddAndGetChildByNameAndFindInSubNode){
     delete it;
 }
 
-TEST(IteratorSuite, NumberOfFiles){
+TEST_F(IteratorSuite, NumberOfFiles){
     Folder * firstFolder = new Folder("/firstFolder");
     Folder * secondFolder = new Folder("/firstFolder/secondFolder");
     Folder * thirdFolder = new Folder("/firstFolder/secondFolder/thirdFolder");
@@ -31,7 +49,7 @@ TEST(IteratorSuite, NumberOfFiles){
     ASSERT_EQ(2, firstFolder->numberOfFiles());
 }
 
-TEST(IteratorSuite, SetParent){
+TEST_F(IteratorSuite, SetParent){
     Folder * firstFolder = new Folder("/firstFolder");
     Folder * secondFolder = new Folder("/firstFolder/secondFolder");
     File * firstFile = new File("/firstFolder/firstFile.txt");
@@ -47,7 +65,7 @@ TEST(IteratorSuite, SetParent){
     delete it;
 }
 
-TEST(Iterator, IsDone){
+TEST_F(IteratorSuite, IsDone){
     Folder * firstFolder = new Folder("/firstFolder");
     File * firstFile = new File("/firstFolder/firstFile.txt");
     firstFolder->add(firstFile);
@@ -59,19 +77,7 @@ TEST(Iterator, IsDone){
     ASSERT_TRUE(it->isDone());
 }
 
-TEST(Iterator, DFS){
-    Node * firstFolder = new Folder("/firstFolder");
-    Node * secondFolder = new Folder("/firstFolder/secondFolder");
-    Node * thirdFolder = new Folder("/firstFolder/secondFolder/thirdFolder");
-    Node * forthFolder = new Folder("/firstFolder/forthFolder");
-    Node * fifthFolder = new Folder("/firstFolder/fifthFolder");
-    
-    Node * firstFile = new File("/firstFolder/domain-driven-design.pdf");
-    Node * secondFile = new File("/firstFolder/secondFolder/secondFile.txt");
-    Node * thirdFile = new File("/firstFolder/secondFolder/thirdFolder/thirdFile.txt");
-    // Node * forthFile = new File("/firstFolder/forthFile.txt");
-    cout << "------ ------ ------ ------ ------ ------ " << endl << endl;
-    
+TEST_F(IteratorSuite, DFS){
     DfsIterator * it = new DfsIterator(firstFolder);
     
     firstFolder->add(forthFolder);
@@ -115,8 +121,8 @@ TEST(Iterator, DFS){
     
     cout << "go to ------ firstFile" << endl;
     it->next();//firstFile
-    ASSERT_EQ("domain-driven-design.pdf", it->currentItem()->name());
-    ASSERT_EQ("/firstFolder/domain-driven-design.pdf", it->currentItem()->path());
+    ASSERT_EQ("firstFile.txt", it->currentItem()->name());
+    ASSERT_EQ("/firstFolder/firstFile.txt", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
 
     cout<< "go to ------ fifthFolder" << endl;
@@ -132,21 +138,7 @@ TEST(Iterator, DFS){
     delete it;
 }
 
-TEST(Iterator, BFS){
-    Node * firstFolder = new Folder("/firstFolder");
-    Node * secondFolder = new Folder("/firstFolder/secondFolder");
-    Node * thirdFolder = new Folder("/firstFolder/secondFolder/thirdFolder");
-    Node * forthFolder = new Folder("/firstFolder/forthFolder");
-    Node * fifthFolder = new Folder("/firstFolder/fifthFolder");
-    Node * sixthFolder = new Folder("/firstFolder/secondFolder/sixthFolder");
-    Node * seventhFolder = new Folder("/firstFolder/fifthFolder/seventhFolder");
-    
-    Node * firstFile = new File("/firstFolder/firstFile.txt");
-    Node * secondFile = new File("/firstFolder/secondFolder/secondFile.txt");
-    Node * thirdFile = new File("/firstFolder/secondFolder/thirdFolder/thirdFile.txt");
-    Node * forthFile = new File("/firstFolder/fifthFolder/forthFile.txt");
-    cout << "------ ------ ------ ------ ------ ------ " << endl << endl;
-    
+TEST_F(IteratorSuite, BFS){
     BfsIterator * it = new BfsIterator(firstFolder);
     
     firstFolder->add(forthFolder);
