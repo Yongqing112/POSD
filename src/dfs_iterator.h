@@ -27,7 +27,6 @@ private:
     std::vector<Node *>::iterator _it;
     std::vector<Node *>::iterator _parent;
     std::vector<Node *> allNodes;
-    int folderCount = 0;
 };
 
 class BfsIterator: public Iterator {
@@ -46,6 +45,7 @@ public:
 private:
     Node * _composite;
     std::vector<Node *>::iterator _it;
+    std::vector<std::vector<Node *>::iterator> _queue;
 };
 
 #endif // DFS_ITERATOR_H
