@@ -21,24 +21,16 @@ protected:
 };
 
 TEST_F(IteratorSuite, AddAndGetChildByNameAndFindInSubNode){
-    Folder * firstFolder = new Folder("/firstFolder");
-    Folder * secondFolder = new Folder("/firstFolder/secondFolder");
-    File * firstFile = new File("/firstFolder/secondFolder/firstFile.txt");
     firstFolder->add(secondFolder);
     FolderIterator * it = firstFolder->createIterator();
     it->first();
-    it->currentItem()->add(firstFile);
-    ASSERT_EQ("firstFile.txt", it->currentItem()->getChildByName("firstFile.txt")->name());
-    ASSERT_EQ(firstFile, it->currentItem()->find("/firstFolder/secondFolder/firstFile.txt"));
+    it->currentItem()->add(secondFile);
+    ASSERT_EQ("secondFile.txt", it->currentItem()->getChildByName("secondFile.txt")->name());
+    ASSERT_EQ(secondFile, it->currentItem()->find("/firstFolder/secondFolder/secondFile.txt"));
     delete it;
 }
 
 TEST_F(IteratorSuite, NumberOfFiles){
-    Folder * firstFolder = new Folder("/firstFolder");
-    Folder * secondFolder = new Folder("/firstFolder/secondFolder");
-    Folder * thirdFolder = new Folder("/firstFolder/secondFolder/thirdFolder");
-    File * firstFile = new File("/firstFolder/firstFile.txt");
-    File * secondFile = new File("/firstFolder/secondFolder/secondFile.txt");
     firstFolder->add(firstFile);
     firstFolder->add(secondFolder);
     secondFolder->add(thirdFolder);
@@ -50,88 +42,68 @@ TEST_F(IteratorSuite, NumberOfFiles){
 }
 
 TEST_F(IteratorSuite, SetParent){
-    Folder * firstFolder = new Folder("/firstFolder");
-    Folder * secondFolder = new Folder("/firstFolder/secondFolder");
-    File * firstFile = new File("/firstFolder/firstFile.txt");
     firstFolder->add(firstFile);
     firstFolder->add(secondFolder);
     FolderIterator * it = firstFolder->createIterator();
     it->first();//firstFile
-    Node * parent = it->currentItem()->getParent();
-    ASSERT_EQ(firstFolder, parent);
+    ASSERT_EQ(firstFolder, it->currentItem()->getParent());
     it->next();//secondFolder
-    parent = it->currentItem()->getParent();
-    ASSERT_EQ(firstFolder, parent);
+    ASSERT_EQ(firstFolder, it->currentItem()->getParent());
     delete it;
 }
 
 TEST_F(IteratorSuite, IsDone){
-    Folder * firstFolder = new Folder("/firstFolder");
-    File * firstFile = new File("/firstFolder/firstFile.txt");
     firstFolder->add(firstFile);
-
     FolderIterator * it = firstFolder->createIterator();
-
     it->first();//firstFile
     it->next();
     ASSERT_TRUE(it->isDone());
 }
 
 TEST_F(IteratorSuite, DFS){
-    DfsIterator * it = new DfsIterator(firstFolder);
-    
     firstFolder->add(forthFolder);
     firstFolder->add(secondFolder);
     firstFolder->add(firstFile);
     firstFolder->add(fifthFolder);
-    
     secondFolder->add(thirdFolder);
     secondFolder->add(secondFile);
-    
     thirdFolder->add(thirdFile);
     
-    cout << "first ------ forthFolder" << endl << endl;
+    DfsIterator * it = new DfsIterator(firstFolder);
     it->first();//forthFolder
     ASSERT_EQ("forthFolder", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/forthFolder", it->currentItem()->path());
 
-    cout << "go to ------ secondFolder" << endl;
     it->next();//secondFolder 
     ASSERT_EQ("secondFolder", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/secondFolder", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
     
-    cout << "go to ------ thirdFolder" << endl;
     it->next();//thirdFolder
     ASSERT_EQ("thirdFolder", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/secondFolder/thirdFolder", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
     
-    cout << "go to ------ thirdFile" << endl;
     it->next();//thirdFile
     ASSERT_EQ("thirdFile.txt", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/secondFolder/thirdFolder/thirdFile.txt", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
     
-    cout << "go to ------ secondFile" << endl;
     it->next();//secondFile
     ASSERT_EQ("secondFile.txt", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/secondFolder/secondFile.txt", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
     
-    cout << "go to ------ firstFile" << endl;
     it->next();//firstFile
     ASSERT_EQ("firstFile.txt", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/firstFile.txt", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
 
-    cout<< "go to ------ fifthFolder" << endl;
     it->next();
     ASSERT_EQ("fifthFolder", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/fifthFolder", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
 
-    cout<< "go to ------ ???????????" << endl;
     it->next();
     ASSERT_TRUE(it->isDone());
 
@@ -139,82 +111,67 @@ TEST_F(IteratorSuite, DFS){
 }
 
 TEST_F(IteratorSuite, BFS){
-    BfsIterator * it = new BfsIterator(firstFolder);
-    
     firstFolder->add(forthFolder);
     firstFolder->add(secondFolder);
     firstFolder->add(firstFile);
     firstFolder->add(fifthFolder);
-    
     secondFolder->add(thirdFolder);
     secondFolder->add(secondFile);
     secondFolder->add(sixthFolder);
-    
     thirdFolder->add(thirdFile);
-
     fifthFolder->add(seventhFolder);
     fifthFolder->add(forthFile);
 
-    cout << "first ------ forthFolder" << endl << endl;
+    BfsIterator * it = new BfsIterator(firstFolder);
     it->first();//forthFolder
     ASSERT_EQ("forthFolder", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/forthFolder", it->currentItem()->path());
 
-    cout << "go to ------ secondFolder" << endl;
     it->next();//secondFolder 
     ASSERT_EQ("secondFolder", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/secondFolder", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
 
-    cout << "go to ------ firstFile" << endl;
     it->next();//firstFile 
     ASSERT_EQ("firstFile.txt", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/firstFile.txt", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
 
-    cout << "go to ------ fifthFolder" << endl;
     it->next();//fifthFolder 
     ASSERT_EQ("fifthFolder", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/fifthFolder", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
 
-    cout << "go to ------ thirdFolder" << endl;
     it->next();//thirdFolder 
     ASSERT_EQ("thirdFolder", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/secondFolder/thirdFolder", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
 
-    cout << "go to ------ secondFile" << endl;
     it->next();//secondFile 
     ASSERT_EQ("secondFile.txt", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/secondFolder/secondFile.txt", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
 
-    cout << "go to ------ sixthFolder" << endl;
     it->next();//sixthFolder 
     ASSERT_EQ("sixthFolder", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/secondFolder/sixthFolder", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
 
-    cout << "go to ------ seventhFolder" << endl;
     it->next();//seventhFolder 
     ASSERT_EQ("seventhFolder", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/fifthFolder/seventhFolder", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
 
-    cout << "go to ------ forthFile" << endl;
     it->next();//forthFile
     ASSERT_EQ("forthFile.txt", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/fifthFolder/forthFile.txt", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
 
-    cout << "go to ------ thirdFile" << endl;
     it->next();//thirdFile 
     ASSERT_EQ("thirdFile.txt", it->currentItem()->name());
     ASSERT_EQ("/firstFolder/secondFolder/thirdFolder/thirdFile.txt", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
 
-    cout << "go to ------ ?????????" << endl;
     it->next();
     ASSERT_TRUE(it->isDone());
     delete it;
