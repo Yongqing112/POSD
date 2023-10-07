@@ -66,10 +66,11 @@ TEST(Iterator, DFS){
     Node * forthFolder = new Folder("/firstFolder/forthFolder");
     Node * fifthFolder = new Folder("/firstFolder/fifthFolder");
     
-    Node * firstFile = new File("/firstFolder/firstFile.txt");
+    Node * firstFile = new File("/firstFolder/domain-driven-design.pdf");
     Node * secondFile = new File("/firstFolder/secondFolder/secondFile.txt");
     Node * thirdFile = new File("/firstFolder/secondFolder/thirdFolder/thirdFile.txt");
     // Node * forthFile = new File("/firstFolder/forthFile.txt");
+    cout << "------ ------ ------ ------ ------ ------ " << endl << endl;
     
     DfsIterator * it = new DfsIterator(firstFolder);
     
@@ -114,8 +115,8 @@ TEST(Iterator, DFS){
     
     cout << "go to ------ firstFile" << endl;
     it->next();//firstFile
-    ASSERT_EQ("firstFile.txt", it->currentItem()->name());
-    ASSERT_EQ("/firstFolder/firstFile.txt", it->currentItem()->path());
+    ASSERT_EQ("domain-driven-design.pdf", it->currentItem()->name());
+    ASSERT_EQ("/firstFolder/domain-driven-design.pdf", it->currentItem()->path());
     ASSERT_FALSE(it->isDone());
 
     cout<< "go to ------ fifthFolder" << endl;

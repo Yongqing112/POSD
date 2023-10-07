@@ -20,9 +20,9 @@ public:
     void add(Node * node) override{
         Folder * folder = dynamic_cast<Folder *>(this);
         if(folder){
-            vector<string *> nodePath = customSplit(node->getPath());
+            vector<string > nodePath = customSplit(node->getPath());
             nodePath.pop_back();
-            vector<string *> thisPath = customSplit(this->getPath());
+            vector<string > thisPath = customSplit(this->getPath());
             if(nodePath == thisPath){
                 node->setParent(this);
                 this->_subNodes.push_back(node);

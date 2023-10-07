@@ -16,8 +16,8 @@ public:
     Node(std::string path)
     :_path(path)
     {
-        std::vector<std::string *> tokens = customSplit(_path);
-        _name = *(tokens.back());
+        std::vector<std::string> tokens = customSplit(_path);
+        _name = tokens.back();
     }
 
     std::string name() const{
@@ -58,12 +58,12 @@ public:
         return _parent;
     }
     
-    std::vector<std::string *> customSplit(std::string path){
+    std::vector<std::string> customSplit(std::string path){
         std::stringstream ss(path);
-        std::vector<std::string *> tokens;
+        std::vector<std::string > tokens;
         std::string token;
         while(getline(ss, token, '/')){
-            tokens.push_back(&token);
+            tokens.push_back(token);
         }
         return tokens;
     }
