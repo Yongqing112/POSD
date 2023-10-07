@@ -1,6 +1,3 @@
-#if !defined(ITERATOR_H)
-#define ITERATOR_H
-
 #pragma once 
 
 #include<vector>
@@ -29,6 +26,3 @@ private:
     Folder * _composite;
     std::vector<Node *>::iterator _it;
 };
-
-
-#endif // ITERATOR_H

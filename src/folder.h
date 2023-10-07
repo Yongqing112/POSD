@@ -9,8 +9,9 @@ using namespace std;
 class Folder: public Node {
     friend class FolderIterator;
     friend class DfsIterator;
+    friend class BfsIterator;
 public:
-    Folder(std::string path)
+    Folder(string path)
     :Node(path)
     {}
 

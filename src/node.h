@@ -10,6 +10,7 @@ using namespace std;
 class Node {
     friend class FolderIterator;
     friend class DfsIterator;
+    friend class BfsIterator;
 public:
     Node(string path)
     :_path(path)

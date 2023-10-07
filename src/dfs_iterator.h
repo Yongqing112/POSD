@@ -1,9 +1,5 @@
-#if !defined(DFS_ITERATOR_H)
-#define DFS_ITERATOR_H
-
 #pragma once
 #include <vector>
-#include <stack>
 
 class Node;
 class Folder;
@@ -47,5 +43,3 @@ private:
     std::vector<Node *>::iterator _it;
     std::vector<std::vector<Node *>::iterator> _queue;
 };
-
-#endif // DFS_ITERATOR_H

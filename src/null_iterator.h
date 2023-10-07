@@ -1,5 +1,4 @@
-#if !defined(NULL_ITERATOR_H)
-#define NULL_ITERATOR_H
+#pragma once
 
 class Node;
 
@@ -11,5 +10,3 @@ public:
     bool isDone() const;
     ~NullIterator(){}
 };
-
-#endif // NULL_ITERATOR_H
