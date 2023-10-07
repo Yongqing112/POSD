@@ -17,7 +17,7 @@ public:
     :_path(path)
     {
         std::vector<std::string *> tokens = customSplit(_path);
-        _name = *(tokens.at(tokens.size()-1));
+        _name = *(tokens.back());
     }
 
     std::string name() const{
