@@ -50,8 +50,11 @@ void DfsIterator::next(){
         cout<< "now folder : " + folder->path() << endl<< endl;
         if(!this->currentItem()->subNodes.empty()){ // have sub nodes;
             _parent = _it;
-            cout<< "parent folder : " + (* _parent)->path() << endl;
             _it = this->currentItem()->subNodes.begin();
+            for(auto it = father->subNodes.begin(); it != father->subNodes.end(); it++){
+                cout<< "---------------------" + (*it)->path() << endl;
+            }
+            cout<< "parent folder : " + (* _parent)->path() << endl;
             cout<< "next folder : " + (*_it)->path() << endl ;
             cout<< "next name : " + (*_it)->name() << endl << endl;
         }
