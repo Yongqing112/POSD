@@ -2,6 +2,7 @@
 
 #include "node.h"
 #include "./visitor.h"
+#include <iostream>
 
 class File: public Node {
 private:

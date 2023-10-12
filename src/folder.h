@@ -4,6 +4,7 @@
 #include "node.h"
 #include "iterator.h"
 #include "dfs_iterator.h"
+#include <iostream>
 
 using namespace std;
 
