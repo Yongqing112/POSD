@@ -7,7 +7,7 @@
 class FindByNameVisitor : public Visitor{
 private:
     string _name;
-    list<string> paths;
+    list<string> _paths;
 public:
     FindByNameVisitor(string name)
     : _name(name)
@@ -17,11 +17,11 @@ public:
 
     }
 
-    void visitFile(File * file){}
+    void visitFile(File * file){
+        _paths.push_back(file->path());
+    }
 
     list<string> getPaths(){
-        for(auto it = this->_nodes.begin(); it != this->_nodes.end(); it++){
-            paths.push_back(*it);
-        }
+        return _paths;
     }
 };

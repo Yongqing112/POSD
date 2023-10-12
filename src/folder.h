@@ -27,6 +27,10 @@ public:
 
     void accept(Visitor * visitor) override{
         cout<< "name : " + this->name() << endl;
+        Iterator * it = this->createIterator();
+        for(it->first(); !it->isDone(); it->next()){
+            it->currentItem()->accept(visitor);
+        }
         visitor->visitFolder(this);
     }
 //-----------------------------------------------------------------------
