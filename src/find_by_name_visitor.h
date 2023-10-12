@@ -12,7 +12,9 @@ public:
     : _name(name)
     {}
 
-    void visitFolder(Folder * folder){}
+    void visitFolder(Folder * folder){
+        
+    }
 
     void visitFile(File * file){}
 };
