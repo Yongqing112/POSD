@@ -5,7 +5,7 @@
 #include "./file.h"
 
 class FindByNameVisitor : public Visitor{
-    FindByNameVisitor(Node * node){}
+    FindByNameVisitor(string name){}
 
     void visitFolder(Folder * folder){}
 
