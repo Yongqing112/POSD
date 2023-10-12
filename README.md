@@ -1,97 +1,105 @@
-POSD with C++ (and more)
+# POSD with C++ (and more)
 
-FALL, 2023
+#### FALL, 2023
 
-Prof Y C Cheng
+#### Prof Y C Cheng
 
-Dept of Computer Science and Information Engineering
+#### Dept of Computer Science and Information Engineering
 
-Taipei Tech
+#### Taipei Tech
 
-Important Links
+### Important Links
 
+* [Course Link](http://140.124.181.100/yccheng/posd2023f): http://140.124.181.100/yccheng/posd2023f
 
-Course Link: http://140.124.181.100/yccheng/posd2023f
+* [Gitlab](http://140.124.181.100): http://140.124.181.100
 
+* [Jenkins](http://140.124.181.97:8080): http://140.124.181.97:8080
 
-Gitlab: http://140.124.181.100
+## Assignment 2
 
+### Due: 10/24 23:59
 
-Jenkins: http://140.124.181.97:8080
+### Notice
 
+* Please use the given makefile. You can modify the makefile if needed, but do not remove "all", "dirs", and "clean". Also, "all" must depends on "dirs". If you have any further questions about makefile, please search and learn it manually.
+* Do not change the code structure, function prototype, or interface of the provided code, otherwise your code might not be compilable with TA's test.
+* Do not commit the object files and executable files to git, otherwise your code might not be executable on the Jenkins server.
+* Your program should not cause memory leak.
+* The unit test you wrote will be also graded, please write the unit test comprehensively for the code you wrote.
+* The design of your program will be also be graded, please follow the required patterns precisely while writing your program.
+* If your code is not compilable on the Jenkins server, you'll get no point for the assignment.
 
+### Description
 
-Assignment 1
+In this assignment, you will keep working on the file system. You will know how to apply **Visitor** pattern to a **Composite** structure. Further, you will learn improved design of the **Iterator** you wrote.
 
-Due: TBA
+### Problem
 
-Notice
+In this assignment, you will extend the file system program from assignment 1, please do this assignment based on the [given code](./given_code), which is the suggested answer of assignment 1.
 
-Do not change the code structure, function prototype, or interface of the provided sample code, otherwise your code might not be compilable with TA's test.
-Do not commit the object files and executable files to git, otherwise your code might not be executable on the Jenkins server.
-Your program should not cause memory leak.
-The unit test you wrote will be also graded, please write the unit test comprehensively for the code you wrote.
-The design of your program will be also be graded, please follow the required patterns precisely while writing your program.
-If your code is not compilable on the Jenkins server, you'll get no point for the assignment.
+There are five questions for you to solve in this assignment:
 
+1. Connect `Folder` and `File` to your OS. A `File` can be created only if there is an actual file under the given path with the same name on the device; same as `Folder`. To achieve this requirement, please refer to [lstate](https://linux.die.net/man/2/lstat) to get actual file/folder info from the devise file system. Note that, if a path to a folder is given to the constructor of `File`, an exception should be thrown; and vice versa.
 
-Description
-In this assignment, you will practice how to implement the Composite and Iterator patterns, and how these three patterns interacts to solve a complex problem.
-In this assignment, you will build a simple file system. To start, you need to download the template code and complete the provided class skeletons. You can add public member functions manually if needed, but do not change the prototype of the given functions. All the virtual are removed in the template, please add it manually if needed and decide whether it is a pure virtual or not.
-You will write your makefile. Please generate an executable file bin/ut_all with the command make, otherwise, your project will not be executable on Jenkins.
+2. Implement `FindByNameVisitor` which provides the same functionality as `list<string> findbyName(string name)` in `Node`, `File` and `Folder`.
 
-Problem
-First, you will implement two domain objects, File and Folder. Please implement the two objects in the manner of Composite pattern, where File is a leaf class and Folder is a composite class. In addition, a component abstract class Node is needed. Note that, a file can only be added to the folder of its path. For example, a file with the path "/Users/user/books/design-pattern.pdf" can only be added to the folder with path "/Users/user/books".
-Next, please implement three iterators to traversal the file system. FolderIterator is a basic iterator that traverses the sub-folders and files in a folder, non-recursively. DfsIterator is an iterator that traverse a folder recursively in the manner of DFS. BfsIterator is an iterator that traverse a folder recursively in the manner of BFS.
+3. Implement `StreamOutVisitor` to read files and folders. If the target is a file, return the path of the file and the entire content of the target file. If the target is a folder, return the contents of all the files under the folder, recursively. The output should follow the following example:
 
-Spec
-Both File and Folder accepts a string of its path. A path is an absolute path to the file or folder including its own name. For example, a folder named "Documents" in the home directory of the system gets the path "/Users/user/home/Documents"; and a file named "hello.txt" in the "Documents" directory gets the path "/Users/user/home/Documents/hello.txt".
-Each Node provides following member functions:
+```shell
+_____________________________________________
+root/folder1/file1.txt
+---------------------------------------------
+hello, world
+_____________________________________________
 
+_____________________________________________
+root/folder2/file2.txt
+---------------------------------------------
+This is file 2
+This is second line
+this is end of file
+_____________________________________________
+```
 
-string name() const: This function returns the name of the node without any path information.
+4. Refactor your code to make `FolderIterator` as an inner class of `Folder`. you need to remove the friend class relationship between `Folder` and `FolderIterator`. Using friend class is not a good approach since it causes dual dependency across the files.
 
+5. Revise `Folder` and `FolderIterator` to make the created iterator unavailable if the structure of `Folder` is changed. For example, a client gets an iterator **it** from a folder **photo**, then the client add a new file **dog.jpg** to **photo**. In this case, **it** is no longer available as the structure of the folder is changed. An exception should be thrown if client invokes `it->next()` and `it->first()`.
 
-string path() const: This function returns the entire path of the node.
+### Further Specs
 
+- Both `FindByNameVisitor` and `StreamOutVisitor` should implement the provided `Visitor` interface.
 
-void add(Node * node): This function add a child node to the current node if the current node is a folder.
+- The output format of `StreamOutVisitor`:
+  - File:
 
+    ```shell
+    _____________________________________________
+    root/folder1/file1.txt
+    ---------------------------------------------
+    hello, world
+    _____________________________________________
+    ```
 
-void remove(string path): This function removes the node under the given path from the composite hierarchy.
+  - Folder:
+    
+    ```shell
+    _____________________________________________
+    root/folder1/file1.txt
+    ---------------------------------------------
+    hello, world
+    _____________________________________________
 
+    _____________________________________________
+    root/folder2/file2.txt
+    ---------------------------------------------
+    This is file 2
+    This is second line
+    this is end of file
+    _____________________________________________
+    ```
 
-HINT: refer to Explicit parent reference in the Implementation section of the Composite pattern in the text book [GoF p.166]
+### Score
 
-
-
-Node * getChildByName(const char * name) const: This function returns a child node according to the receiving name. nullptr is returned if no node matches the name.
-
-
-Node * find(string path): This function returns the node under the composite structure with path matching the argument. If no matched node is found, a nullptr is returned.
-
-
-int numberOfFiles(): This function calculates the total numbers of the files under the current node. For example, a folder "Books" gets a file "design-pattern.pdf" and a folder "SOLID". There are five files in the folder "SOLID" for the SOLID principles. The numberOfFiles for the folder "Books" is 6.
-
-
-Iterator * createIterator(): This function is a Factory Method for generating the corresponding iterators according to the concrete classes.
-
-For Folder, it generates a FolderIterator.
-Please place the implementation of FolderIterator in the path "src/iterator.cpp", as what we have done in the class. Otherwise, your code will not be compiled on Jenkins.
-For leaf classes, it generates a null iterator.
-
-
-HINT: refer to Null Iterator in the Implementation section of the Iterator pattern in the text book [GoF p.166]
-
-
-
-HINT: refer to Factory Method pattern in the text book [GoF p.107-116]
-
-
-
-The three iterators FolderIterator, DfsIterator, and BfsIterator should derive from the Iterator class.
-
-Score
-
-Code written by students: 60%
-Passing Unit tests written by TA: 40%
+* Code written by students: 60%
+* Passing Unit tests written by TA: 40%

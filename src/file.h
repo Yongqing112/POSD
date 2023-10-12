@@ -1,37 +1,20 @@
 #pragma once
-#include "./node.h"
-#include "./iterator.h"
-#include "./null_iterator.h"
+
+#include "node.h"
 
 class File: public Node {
 public:
-    File(std::string path)
-    :Node(path)
-    {}
+    File(string path): Node(path) {}
 
-    void add(Node * node) override{
-        throw string("this is a file.");
+    int numberOfFiles() const {
+        return 1;
     }
 
-    void remove(string path) override{
-        throw string("this is a file.");
-    }
-
-    Node * getChildByName(const char * name) const override{
+    Node * find(string path) {
+        if (this->path() == path) {
+            return this;
+        }
         return nullptr;
     }
 
-    Node * find(string path){
-        return nullptr;
-    }
-
-    int numberOfFiles() const override{
-        throw string("this is a file.");
-    }
-
-    NullIterator * createIterator(){
-        return new NullIterator();
-    }
-
-    ~File(){}
 };

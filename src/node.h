@@ -1,67 +1,64 @@
-#pragma once
-#include "./iterator.h"
-#include <string>
-#include <sstream>
-#include <iostream>
-#include <vector>
+#pragma once 
+
+#include<string>
+#include "iterator.h"
+#include "null_iterator.h"
 
 using namespace std;
 
 class Node {
-    friend class FolderIterator;
-    friend class DfsIterator;
-    friend class BfsIterator;
+private:
+    string _path;
+    Node * _parent;
+protected:
+
+    Node(string path): _path(path) {}
+
 public:
-    Node(string path)
-    :_path(path)
-    {
-        vector<string> tokens = customSplit(_path);
-        _name = tokens.back();
+    virtual ~Node() {}
+
+    Node * parent() {
+        return _parent;
     }
 
-    string name() const{
-        return _name;
+    void parent(Node * parent) {
+        _parent = parent;
     }
     
-    string path() const{
+    virtual void removeChild(Node * target) {
+        throw string("This node does not support removing sub node");
+    }
+
+    string name() const {
+        size_t slash = _path.rfind("/");
+        return _path.substr(slash+1);
+    }
+    
+    string path() const {
         return _path;
     }
     
-    void setParent(Node * parent){
-        _parent = parent;
-    };
-
-    Node * getParent() const{
-        return _parent;
-    }
-    
-    std::vector<std::string> customSplit(string path){
-        stringstream ss(path);
-        vector<string > tokens;
-        string token;
-        while(getline(ss, token, '/')){
-            tokens.push_back(token);
-        }
-        return tokens;
+    virtual void add(Node * node) {
+        throw string("This node does not support adding sub node");
     }
 
-    virtual void add(Node * node) = 0;
-
-    virtual void remove(string path) = 0;
-    
-    virtual Node * getChildByName(const char * name) const = 0;
-
-    virtual Node * find(string path) = 0;
+    virtual Node * getChildByName(const char * name) const {
+        return nullptr;
+    }
 
     virtual int numberOfFiles() const = 0;
 
-    virtual Iterator * createIterator() = 0;
+    virtual Iterator * createIterator() {
+        return new NullIterator();
+    }
 
-    virtual ~Node(){}
+    virtual Iterator * dfsIterator() {
+        return new NullIterator();
+    }
 
-    vector<Node *> subNodes;
-private:
-    std::string _path;
-    std::string _name;
-    Node * _parent = nullptr;
+    virtual Node * find(string path) = 0;
+
+    virtual void remove(string path) {
+        throw string("This node does not support deleting sub node");
+    }
 };

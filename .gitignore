@@ -1,7 +1,3 @@
-.vscode
-
+.DS_Store
 bin
 obj
-
-#Mac Os
-.DS_Store

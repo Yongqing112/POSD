@@ -1,12 +1,10 @@
-#pragma once
+#pragma once 
 
-class Node;
+#include "iterator.h"
 
 class NullIterator : public Iterator {
 public:
-    void first();
-    Node * currentItem() const;
-    void next();
-    bool isDone() const;
-    ~NullIterator(){}
+    bool isDone () const override {
+        return true;
+    }
 };

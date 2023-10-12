@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 
-#include "./file_test.h"
-#include "./folder_test.h"
-#include "./node_test.h"
-#include "./iterator_test.h"
+#include "ut_file.h"
+#include "ut_folder.h"
+#include "ut_node.h"
+#include "ut_iterator.h"
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
