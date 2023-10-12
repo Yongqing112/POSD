@@ -3,6 +3,7 @@
 #include<string>
 #include "iterator.h"
 #include "null_iterator.h"
+#include "visitor.h"
 
 using namespace std;
 
@@ -15,6 +16,10 @@ protected:
     Node(string path): _path(path) {}
 
 public:
+    virtual list<string> findByName(string name) = 0;
+    virtual void accept(Visitor * visitor) = 0;
+//-------------------------------------------------------
+
     virtual ~Node() {}
 
     Node * parent() {
@@ -62,5 +67,4 @@ public:
         throw string("This node does not support deleting sub node");
     }
 
-    virtual list<string> findByName(string name) = 0;
 };

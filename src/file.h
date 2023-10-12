@@ -1,6 +1,7 @@
 #pragma once
 
 #include "node.h"
+#include "./visitor.h"
 
 class File: public Node {
 private:
@@ -19,7 +20,11 @@ public:
         return nullptr;
     }
 
-    list<string> findByName(string name){
+    list<string> findByName(string name) override{
         return _string;
+    }
+
+    void accept(Visitor * visitor) override{
+        visitor->visitFile(this);
     }
 };

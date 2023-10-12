@@ -19,6 +19,15 @@ protected:
     }
 
 public:
+    list<string> findByName(string name) override{
+        return _string;
+    }
+
+    void accept(Visitor * visitor) override{
+        visitor->visitFolder(this);
+    }
+//-----------------------------------------------------------------------
+
     Folder(string path): Node(path) {}
 
     void add(Node * node) {
@@ -82,9 +91,5 @@ public:
         if (target) {
             target->parent()->removeChild(target);
         }
-    }
-
-    list<string> findByName(string name){
-        return _string;
     }
 };
