@@ -5,7 +5,12 @@
 #include "./file.h"
 
 class FindByNameVisitor : public Visitor{
-    FindByNameVisitor(string name){}
+private:
+    string _name;
+public:
+    FindByNameVisitor(string name)
+    : _name(name)
+    {}
 
     void visitFolder(Folder * folder){}
 
