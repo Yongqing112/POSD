@@ -3,6 +3,8 @@
 #include "node.h"
 
 class File: public Node {
+private:
+    list<string> _string;
 public:
     File(string path): Node(path) {}
 
@@ -17,4 +19,7 @@ public:
         return nullptr;
     }
 
+    list<string> findByName(string name){
+        return _string;
+    }
 };

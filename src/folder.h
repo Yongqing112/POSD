@@ -11,6 +11,7 @@ class Folder: public Node {
     friend class FolderIterator;
 private:
     list<Node *> _nodes;
+    list<string> _string;
 
 protected:
     void removeChild(Node * target) {
@@ -81,5 +82,9 @@ public:
         if (target) {
             target->parent()->removeChild(target);
         }
+    }
+
+    list<string> findByName(string name){
+        return _string;
     }
 };

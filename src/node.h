@@ -61,4 +61,6 @@ public:
     virtual void remove(string path) {
         throw string("This node does not support deleting sub node");
     }
+
+    virtual list<string> findByName(string name) = 0;
 };
