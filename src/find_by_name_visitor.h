@@ -18,6 +18,7 @@ public:
     }
 
     void visitFile(File * file){
+        cout << "visitFile path : " + file->path() << endl;
         _paths.push_back(file->path());
     }
 

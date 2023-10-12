@@ -22,12 +22,12 @@ public:
     }
 
     list<string> findByName(string name) override{
-        cout<< "name : " + name << endl;
+        cout<< "findByName name : " + name << endl;
         return _string;
     }
 
     void accept(Visitor * visitor) override{
-        cout<< "name : " + this->name() << endl;
+        cout<< "accept name : " + this->name() << endl;
         visitor->visitFile(this);
     }
 };
