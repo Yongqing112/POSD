@@ -1,7 +1,7 @@
 #include "iterator.h"
 #include "folder.h"
 
-Folder::FolderIterator::FolderIterator(Folder* composite)
+Folder::FolderIterator::FolderIterator(Folder * composite)
     :_host(composite) {}
 
 void Folder::FolderIterator::first() {

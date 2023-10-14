@@ -57,6 +57,8 @@ protected:
 };
 
 TEST_F(VisitorTest, FindByNameVisitFolder){
-    Visitor * visitor = new FindByNameVisitor("note.txt");
+    Visitor * visitor = new FindByNameVisitor("favorites");
     home->accept(visitor);
+    ASSERT_FALSE(dynamic_cast<FindByNameVisitor *>(visitor)->getPaths().empty());
+    ASSERT_EQ("/Users/user/home/Documents/favorites", dynamic_cast<FindByNameVisitor *>(visitor)->getPaths().front());
 }

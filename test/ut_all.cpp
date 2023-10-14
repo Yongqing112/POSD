@@ -5,7 +5,6 @@
 #include "ut_node.h"
 #include "ut_iterator.h"
 #include "ut_visitor.h"
-#include "../src/folder.h"
 
 
 int main(int argc, char **argv) {

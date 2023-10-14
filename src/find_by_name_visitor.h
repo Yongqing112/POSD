@@ -13,11 +13,16 @@ public:
     : _name(name)
     {}
 
-    void visitFolder(Folder * folder){}
+    void visitFolder(Folder * folder){
+        if (folder->name() == _name) {
+            cout << "foundFolder path : " + folder->path() << endl;
+            _paths.push_back(folder->path());
+        }
+    }
 
     void visitFile(File * file){
         if (file->name() == _name) {
-            cout << "visitFile path : " + file->path() << endl;
+            cout << "foundFile path : " + file->path() << endl;
             _paths.push_back(file->path());
         }
     }
