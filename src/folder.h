@@ -93,7 +93,7 @@ public:
     }
 
     Iterator * createIterator() {
-        return new FolderIterator(this);
+        return new Folder::FolderIterator(this);
     }
 
     Iterator * dfsIterator() {
