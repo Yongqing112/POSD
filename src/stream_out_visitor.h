@@ -29,6 +29,7 @@ public:
     }
 
         string getResult(){
+            cout << "getResult : " + _result << endl;
             return _result;
         }
 };
