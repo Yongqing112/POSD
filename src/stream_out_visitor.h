@@ -15,6 +15,6 @@ public:
     void visitFile(File * file){}
 
     list<string> getResult(){
-        return _result:
+        return _result;
     }
 };
