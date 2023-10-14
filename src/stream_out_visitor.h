@@ -25,7 +25,7 @@ public:
         std::stringstream ss;
         ss << ifs.rdbuf();
         string contnet = ss.str();
-        if(_result = ""){
+        if(_result == ""){
             _result = "_____________________________________________\n" + file->path() + "\n---------------------------------------------\n" + contnet + "\n_____________________________________________\n";
         }
         else{
