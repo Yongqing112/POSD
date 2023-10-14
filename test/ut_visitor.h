@@ -1,3 +1,4 @@
+#pragma once
 #include "../src/node.h"
 #include "../src/file.h"
 #include "../src/folder.h"
