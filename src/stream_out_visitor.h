@@ -6,7 +6,7 @@
 
 class StreamOutVisitor : public Visitor{
 private:
-    list<string> _result;
+    string _result;
 public:
     StreamOutVisitor(){}
 
@@ -14,7 +14,7 @@ public:
 
     void visitFile(File * file){}
 
-    list<string> getResult(){
+    string getResult(){
         return _result;
     }
 };
