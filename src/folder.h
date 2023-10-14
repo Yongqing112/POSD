@@ -22,24 +22,24 @@ protected:
 public:
 
     static Folder create(string path){
-        cout << "path : " + path << endl;
+        // cout << "path : " + path << endl;
         struct stat st;
         const char *cstr = path.c_str();
         lstat(cstr, &st);
         int mode = st.st_mode;//S_ISREG
         if(S_ISDIR(mode)){
-            cout << "this is a folder : " + path << endl;
+            // cout << "this is a folder : " + path << endl;
             return Folder(path);
         }
         else{
-            cout << "this is not a folder : " + path << endl;
+            // cout << "this is not a folder : " + path << endl;
             throw std::string("this is not a folder");
         }
     }
 
 
     void accept(Visitor * visitor) override{
-        cout<< "accept name : " + this->name() << endl;
+        // cout<< "accept name : " + this->name() << endl;
         Iterator * it = this->createIterator();
         for(it->first(); !it->isDone(); it->next()){
             it->currentItem()->accept(visitor);

@@ -16,7 +16,7 @@ public:
     void visitFolder(Folder * folder){}
 
     void visitFile(File * file){
-        cout << "StreamOutFile path : " + file->path() << endl;
+        // cout << "StreamOutFile path : " + file->path() << endl;
         std::ifstream ifs(file->path(), std::ios::in);
         if (!ifs.is_open()) {
             cout << "Failed to open file.\n";
@@ -30,7 +30,7 @@ public:
     }
 
         string getResult(){
-            cout << "getResult : " + _result << endl;
+            // cout << "getResult : " + _result << endl;
             
             return _result;
         }

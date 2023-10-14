@@ -9,17 +9,17 @@ private:
     list<string> _string;
 public:
     static File create(string path){
-        cout << "path : " + path << endl;
+        // cout << "path : " + path << endl;
         struct stat st;
         const char *cstr = path.c_str();
         lstat(cstr, &st);
         int mode = st.st_mode;
         if(S_ISREG(mode)){
-            cout << "this is a file : " + path << endl;
+            // cout << "this is a file : " + path << endl;
             return File(path);
         }
         else{
-            cout << "this is not a file : " + path << endl;
+            // cout << "this is not a file : " + path << endl;
             throw std::string("this is not a file");
         }
     }
