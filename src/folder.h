@@ -5,11 +5,11 @@
 #include "iterator.h"
 #include "dfs_iterator.h"
 #include <iostream>
+#include <sys/stat.h>
 
 using namespace std;
 
 class Folder: public Node {
-    friend class FolderIterator;
 private:
     list<Node *> _nodes;
     list<string> _string;
@@ -21,6 +21,23 @@ protected:
 
 public:
 
+    static Folder create(string path){
+        cout << "path : " + path << endl;
+        struct stat st;
+        const char *cstr = path.c_str();
+        lstat(cstr, &st);
+        int mode = st.st_mode;//S_ISREG
+        if(S_ISDIR(mode)){
+            cout << "this is a folder : " + path << endl;
+            return Folder (path);
+        }
+        else{
+            cout << "this is not a folder : " + path << endl;
+            throw std::string("this is not a folder");
+        }
+    }
+
+
     void accept(Visitor * visitor) override{
         cout<< "accept name : " + this->name() << endl;
         Iterator * it = this->createIterator();
@@ -30,19 +47,19 @@ public:
         visitor->visitFolder(this);
     }
 
-    // class FolderIterator : public Iterator {
-    // public:
-    //     FolderIterator(Folder* composite);
-    //     ~FolderIterator() {}
-    //     void first();
-    //     Node * currentItem() const;
-    //     void next();
-    //     bool isDone() const;
+    class FolderIterator : public Iterator {
+    public:
+        FolderIterator(Folder* composite);
+        ~FolderIterator() {}
+        void first();
+        Node * currentItem() const;
+        void next();
+        bool isDone() const;
 
-    // private:
-    //     Folder* const _host;
-    //     std::list<Node *>::iterator _current;
-    // };
+    private:
+        Folder* const _host;
+        std::list<Node *>::iterator _current;
+    };
 //-----------------------------------------------------------------------
 
     Folder(string path): Node(path) {}
