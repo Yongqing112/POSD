@@ -1,6 +1,7 @@
 #pragma once
 
 #include "./visitor.h"
+#include "./iterator.h"
 #include "./folder.h"
 #include "./file.h"
 
