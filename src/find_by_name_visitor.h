@@ -13,9 +13,7 @@ public:
     : _name(name)
     {}
 
-    void visitFolder(Folder * folder){
-
-    }
+    void visitFolder(Folder * folder){}
 
     void visitFile(File * file){
         cout << "visitFile path : " + file->path() << endl;

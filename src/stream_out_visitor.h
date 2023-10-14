@@ -6,7 +6,7 @@
 
 class StreamOutVisitor : public Visitor{
 public:
-    StreamOutVisitor(Node * node){}
+    StreamOutVisitor(){}
 
     void visitFolder(Folder * folder){}
 

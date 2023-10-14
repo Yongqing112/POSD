@@ -16,7 +16,6 @@ protected:
     Node(string path): _path(path) {}
 
 public:
-    virtual list<string> findByName(string name) = 0;
     virtual void accept(Visitor * visitor) = 0;
 //-------------------------------------------------------
 
@@ -62,6 +61,8 @@ public:
     }
 
     virtual Node * find(string path) = 0;
+
+    virtual std::list<string> findByName(string name) = 0;
 
     virtual void remove(string path) {
         throw string("This node does not support deleting sub node");

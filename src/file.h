@@ -21,10 +21,14 @@ public:
         return nullptr;
     }
 
-    list<string> findByName(string name) override{
-        cout<< "findByName name : " + name << endl;
-        return _string;
+    std::list<string> findByName(string name) override {
+        std::list<string> pathList;
+        if (this->name() == name) {
+            pathList.push_back(this->path());
+        }
+        return pathList;
     }
+
 
     void accept(Visitor * visitor) override{
         cout<< "accept name : " + this->name() << endl;

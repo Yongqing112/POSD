@@ -19,10 +19,6 @@ protected:
     }
 
 public:
-    list<string> findByName(string name) override{
-        cout<< "findByName name : " + name << endl;
-        return _string;
-    }
 
     void accept(Visitor * visitor) override{
         cout<< "accept name : " + this->name() << endl;
@@ -105,6 +101,24 @@ public:
         }
         return nullptr;
     }
+
+    std::list<string> findByName(string name) override {
+        std::list<string> pathList;
+        if (this->name() == name) {
+            pathList.push_back(this->path());
+        }
+
+        for (auto it = _nodes.begin(); it != _nodes.end(); ++it) {
+            std::list<string> paths = (*it)->findByName(name);
+            for (auto i = paths.begin(); i != paths.end(); i++)
+            {
+                pathList.push_back(*i);  
+            }
+        }
+
+        return pathList;
+    }
+
 
     void remove(string path) {
         Node * target = find(path);
