@@ -24,7 +24,18 @@ public:
         }
     }
 
-    File(string path): Node(path) {}
+    File(string path)
+    : Node(path) 
+    {
+        struct stat st;
+        const char *cstr = path.c_str();
+        lstat(cstr, &st);
+        int mode = st.st_mode;
+        if(!S_ISREG(mode)){
+            // cout << "this is not a file : " + path << endl;
+            throw std::string("this is not a file");
+        }
+    }
 
     int numberOfFiles() const {
         return 1;
