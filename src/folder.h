@@ -75,7 +75,16 @@ public:
     };
 //-----------------------------------------------------------------------
 
-    Folder(string path): Node(path) {}
+    Folder(string path): Node(path) {
+        struct stat st;
+        const char *cstr = path.c_str();
+        lstat(cstr, &st);
+        int mode = st.st_mode;//S_ISREG
+        if(!S_ISDIR(mode)){
+            // cout << "this is a folder : " + path << endl;
+            throw std::string("this is not a folder");
+        }
+    }
 
     void add(Node * node) {
         if (node->path() != this->path() + "/" + node->name()) {
