@@ -25,11 +25,13 @@ public:
         std::stringstream ss;
         ss << ifs.rdbuf();
         _result = ss.str();
+        _result = "_____________________________________________\n" + file->path() + "\n---------------------------------------------\n" + _result + "\n_____________________________________________\n\n";
         ifs.close();
     }
 
         string getResult(){
             cout << "getResult : " + _result << endl;
+            
             return _result;
         }
 };
