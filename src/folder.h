@@ -9,6 +9,7 @@
 using namespace std;
 
 class Folder: public Node {
+    friend class FolderIterator;
 private:
     list<Node *> _nodes;
     list<string> _string;
@@ -29,19 +30,19 @@ public:
         visitor->visitFolder(this);
     }
 
-    class FolderIterator : public Iterator {
-    public:
-        FolderIterator(Folder* composite);
-        ~FolderIterator() {}
-        void first();
-        Node * currentItem() const;
-        void next();
-        bool isDone() const;
+    // class FolderIterator : public Iterator {
+    // public:
+    //     FolderIterator(Folder* composite);
+    //     ~FolderIterator() {}
+    //     void first();
+    //     Node * currentItem() const;
+    //     void next();
+    //     bool isDone() const;
 
-    private:
-        Folder* const _host;
-        std::list<Node *>::iterator _current;
-    };
+    // private:
+    //     Folder* const _host;
+    //     std::list<Node *>::iterator _current;
+    // };
 //-----------------------------------------------------------------------
 
     Folder(string path): Node(path) {}
