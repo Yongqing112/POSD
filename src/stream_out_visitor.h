@@ -9,7 +9,7 @@
 
 class StreamOutVisitor : public Visitor{
 private:
-    string _result;
+    string _result = "";
 public:
     StreamOutVisitor(){}
 
@@ -24,8 +24,13 @@ public:
 
         std::stringstream ss;
         ss << ifs.rdbuf();
-        _result = ss.str();
-        _result = "_____________________________________________\n" + file->path() + "\n---------------------------------------------\n" + _result + "\n_____________________________________________\n";
+        string contnet = ss.str();
+        if(_result = ""){
+            _result = "_____________________________________________\n" + file->path() + "\n---------------------------------------------\n" + contnet + "\n_____________________________________________\n";
+        }
+        else{
+            _result = _result + "_____________________________________________\n" + file->path() + "\n---------------------------------------------\n" + contnet + "\n_____________________________________________\n";
+        }
         ifs.close();
     }
 
