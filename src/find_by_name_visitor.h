@@ -16,8 +16,10 @@ public:
     void visitFolder(Folder * folder){}
 
     void visitFile(File * file){
-        cout << "visitFile path : " + file->path() << endl;
-        _paths.push_back(file->path());
+        if (file->name() == _name) {
+            cout << "visitFile path : " + file->path() << endl;
+            _paths.push_back(file->path());
+        }
     }
 
     list<string> getPaths(){
