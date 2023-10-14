@@ -29,7 +29,7 @@ public:
         int mode = st.st_mode;//S_ISREG
         if(S_ISDIR(mode)){
             cout << "this is a folder : " + path << endl;
-            return Folder (path);
+            return Folder(path);
         }
         else{
             cout << "this is not a folder : " + path << endl;
@@ -49,12 +49,25 @@ public:
 
     class FolderIterator : public Iterator {
     public:
-        FolderIterator(Folder* composite);
+        FolderIterator(Folder * composite)
+        :_host(composite) {}
+
+        void first() {
+            _current = _host->_nodes.begin();
+        }
+
+        Node * currentItem() const {
+            return *_current;
+        }
+
+        void next() {
+            _current++;
+        }
+
+        bool isDone() const {
+            return _current == _host->_nodes.end();
+        }
         ~FolderIterator() {}
-        void first();
-        Node * currentItem() const;
-        void next();
-        bool isDone() const;
 
     private:
         Folder* const _host;
@@ -93,7 +106,7 @@ public:
     }
 
     Iterator * createIterator() {
-        return new Folder::FolderIterator(this);
+        return new FolderIterator(this);
     }
 
     Iterator * dfsIterator() {
