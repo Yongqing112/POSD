@@ -50,10 +50,17 @@ public:
     class FolderIterator : public Iterator {
     public:
         FolderIterator(Folder * composite)
-        :_host(composite) {}
+        :_host(composite) {
+            _original_size = _host->_nodes.size();
+        }
 
         void first() {
-            _current = _host->_nodes.begin();
+            if(_original_size != 0){
+                _current = _host->_nodes.begin();
+            }
+            else{
+                throw std::string("The folder don't have files");
+            }
         }
 
         Node * currentItem() const {
@@ -61,17 +68,26 @@ public:
         }
 
         void next() {
-            _current++;
+            _count += 1;
+            if(_count < _original_size){
+                _current++;
+            }
+            else{
+                throw std::string("The folder don't have the next file");
+            }
         }
 
         bool isDone() const {
             return _current == _host->_nodes.end();
         }
+
         ~FolderIterator() {}
 
     private:
         Folder* const _host;
         std::list<Node *>::iterator _current;
+        int _original_size;
+        int _count = 0;
     };
 //-----------------------------------------------------------------------
 
