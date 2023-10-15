@@ -13,6 +13,7 @@ class Folder: public Node {
 private:
     list<Node *> _nodes;
     list<string> _string;
+    int flag = 0;
 
 protected:
     void removeChild(Node * target) {
@@ -50,17 +51,10 @@ public:
     class FolderIterator : public Iterator {
     public:
         FolderIterator(Folder * composite)
-        :_host(composite) {
-            _original_size = _host->_nodes.size();
-        }
+        :_host(composite) {}
 
         void first() {
-            if(_original_size != 0){
-                _current = _host->_nodes.begin();
-            }
-            else{
-                throw std::string("The folder don't have files");
-            }
+            _current = _host->_nodes.begin();
         }
 
         Node * currentItem() const {
@@ -68,26 +62,18 @@ public:
         }
 
         void next() {
-            _count += 1;
-            if(_count < _original_size){
-                _current++;
-            }
-            else{
-                throw std::string("The folder don't have the next file");
-            }
+            _current++;
         }
 
         bool isDone() const {
             return _current == _host->_nodes.end();
         }
-
+        
         ~FolderIterator() {}
 
     private:
         Folder* const _host;
         std::list<Node *>::iterator _current;
-        int _original_size;
-        int _count = 0;
     };
 //-----------------------------------------------------------------------
 
@@ -106,8 +92,10 @@ public:
         if (node->path() != this->path() + "/" + node->name()) {
             throw string("Incorrect path of node: " + node -> path());
         }
-        _nodes.push_back(node);
-        node->parent(this);
+        if(flag == 0){
+            _nodes.push_back(node);
+            node->parent(this);
+        }
     }
 
     Node * getChildByName(const char * name) const {
@@ -131,10 +119,12 @@ public:
     }
 
     Iterator * createIterator() {
+        flag = 1;
         return new FolderIterator(this);
     }
 
     Iterator * dfsIterator() {
+        flag = 2;
         return new DfsIterator(this);
     }
 
