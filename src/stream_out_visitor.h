@@ -10,6 +10,7 @@
 class StreamOutVisitor : public Visitor{
 private:
     string _result = "";
+    list<string> _resultlist;
 public:
     StreamOutVisitor(){}
 
@@ -25,17 +26,23 @@ public:
         std::stringstream ss;
         ss << ifs.rdbuf();
         string contnet = ss.str();
-        if(_result == ""){
-            _result = "_____________________________________________\n" + file->path() + "\n---------------------------------------------\n" + contnet + "\n_____________________________________________\n";
+        if(_resultlist.empty()){
+            _resultlist.push_back("_____________________________________________\n" + file->path() + "\n---------------------------------------------\n" + contnet + "\n_____________________________________________\n");
         }
         else{
-            _result = _result + "\n_____________________________________________\n" + file->path() + "\n---------------------------------------------\n" + contnet + "\n_____________________________________________\n";
+            _resultlist.push_back("\n_____________________________________________\n" + file->path() + "\n---------------------------------------------\n" + contnet + "\n_____________________________________________\n");
         }
         ifs.close();
     }
 
         string getResult(){
             // cout << "getResult : " + _result << endl;
+            for (auto it=_resultlist.begin(); it != _resultlist.end(); ++it){
+                _result += *it;
+            }
+            if(_resultlist.size() != 1){
+                _result += "\n";
+            }
             
             return _result;
         }
