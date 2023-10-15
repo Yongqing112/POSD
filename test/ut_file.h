@@ -2,8 +2,8 @@
 
 #include "../src/file.h"
 
-// TEST(File, normal) {
-//     File hello("/Users/user/home/hello.txt");
-//     ASSERT_EQ("hello.txt", hello.name());
-//     ASSERT_EQ("/Users/user/home/hello.txt", hello.path());
-// }
+TEST(File, normal) {
+    File * hello = File::create("test_actual_file_or_folder/a.txt");
+    ASSERT_EQ("a.txt", hello->name());
+    ASSERT_EQ("test_actual_file_or_folder/a.txt", hello->path());
+}

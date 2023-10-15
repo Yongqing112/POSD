@@ -5,32 +5,31 @@
 
 using namespace std;
 
-// TEST(Folder, normal) {
-//     Folder home("/Users/user/home");
+TEST(Folder, normal) {
+    Folder * test_actual_file_or_folder = Folder::create("test_actual_file_or_folder");
 
-//     ASSERT_EQ("home", home.name());
-//     ASSERT_EQ("/Users/user/home", home.path());
-// }
+    ASSERT_EQ("test_actual_file_or_folder", test_actual_file_or_folder->name());
+    ASSERT_EQ("test_actual_file_or_folder", test_actual_file_or_folder->path());
+}
 
-// // TEST(Folder, add_file) {
-// //     Folder home("/Users/user/home");
-// //     File hello("/Users/user/home/hello.txt");
-// //     home.add(&hello);
+TEST(Folder, add_file) {
+    Folder * test_actual_file_or_folder = Folder::create("test_actual_file_or_folder");
+    File * a_file = File::create("test_actual_file_or_folder/a.txt");
+    test_actual_file_or_folder->add(a_file);
 
-// //     ASSERT_EQ("hello.txt", home.getChildByName("hello.txt")->name());
-// // }
+    ASSERT_EQ("a.txt", test_actual_file_or_folder->getChildByName("a.txt")->name());
+}
 
-// // TEST(Folder, add_incorrect_path_file_to_folder) {
-// //     Folder home("/Users/user/home");
-// //     File hello("/Users/user/home/Documents/hello.txt");
-// //     ASSERT_ANY_THROW(home.add(&hello));
-// // }
+TEST(Folder, add_incorrect_path_file_to_folder) {
+    Folder * test_actual_file_or_folder = Folder::create("test_actual_file_or_folder");
+    File * ut_file = File::create("test/ut_file.h");
+    ASSERT_ANY_THROW(test_actual_file_or_folder->add(ut_file));
+}
 
-// TEST(Folder, add_folder) {
-//     Folder home("/Users/user/home");
-//     Folder document("/Users/user/home/Documents");
+TEST(Folder, add_folder) {
+    Folder * test_actual_file_or_folder = Folder::create("test_actual_file_or_folder");
+    Folder * d_folder = Folder::create("test_actual_file_or_folder/d");
+    test_actual_file_or_folder->add(d_folder);
 
-//     home.add(&document);
-
-//     ASSERT_EQ("Documents", home.getChildByName("Documents")->name());
-// }
+    ASSERT_EQ("d", test_actual_file_or_folder->getChildByName("d")->name());
+}
