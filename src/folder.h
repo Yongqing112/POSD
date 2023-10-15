@@ -51,13 +51,21 @@ public:
     public:
         FolderIterator(Folder * composite)
         :_host(composite) {
-            _list_size = _host->_nodes.size();
-            cout<< "list size : ";
-            cout << _list_size << endl;
+            _origin = _host->_nodes;
+            cout<< "origin list : ";
+            for (auto it=_origin.begin(); it != _origin.end(); ++it){
+                cout << (*it)->path() << endl;
+            }
         }
 
         void first() {
-            _current = _host->_nodes.begin();
+            if(_origin != _host->_nodes){
+                cout << "structure of golder is changed" << endl;
+                throw std::string("structure of golder is changed");
+            }
+            else{
+                _current = _host->_nodes.begin();
+            }
         }
 
         Node * currentItem() const {
@@ -65,7 +73,13 @@ public:
         }
 
         void next() {
+            if(_origin != _host->_nodes){
+                cout << "structure of golder is changed" << endl;
+                throw std::string("structure of golder is changed");
+            }
+            else{
             _current++;
+            }
         }
 
         bool isDone() const {
@@ -77,7 +91,7 @@ public:
     private:
         Folder* const _host;
         std::list<Node *>::iterator _current;
-        int _list_size;
+        list<Node *> _origin;
     };
 //-----------------------------------------------------------------------
 
