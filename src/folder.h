@@ -21,7 +21,7 @@ protected:
 
 public:
 
-    static Folder create(string path){
+    static Folder * create(string path){
         // cout << "path : " + path << endl;
         struct stat st;
         const char *cstr = path.c_str();
@@ -29,7 +29,7 @@ public:
         int mode = st.st_mode;//S_ISREG
         if(S_ISDIR(mode)){
             // cout << "this is a folder : " + path << endl;
-            return Folder(path);
+            return new Folder(path);
         }
         else{
             // cout << "this is not a folder : " + path << endl;

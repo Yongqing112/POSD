@@ -43,7 +43,7 @@ public:
             if(_resultlist.size() != 1){
                 _result += "\n";
             }
-            
+            cout << _result << endl;
             return _result;
         }
 };

@@ -11,6 +11,23 @@
 class VisitorTest: public ::testing::Test {
 protected:
     void SetUp() {
+        test_actual_file_or_folder = Folder::create("test_actual_file_or_folder");
+
+        d_folder = Folder::create("test_actual_file_or_folder/d");
+        test_actual_file_or_folder->add(d_folder);
+        
+        a_file = File::create("test_actual_file_or_folder/a.txt");
+        test_actual_file_or_folder->add(a_file);
+
+        b_file = File::create("test_actual_file_or_folder/b.txt");
+        test_actual_file_or_folder->add(b_file);
+
+        c_file = File::create("test_actual_file_or_folder/c.txt");
+        test_actual_file_or_folder->add(c_file);
+
+        e_file = File::create("test_actual_file_or_folder/d/e.txt");
+        d_folder->add(e_file);
+
         // home = new Folder("/Users/user/home");
 
         // profile = new File("/Users/user/home/my_profile");
@@ -36,17 +53,23 @@ protected:
     }
 
     void TearDown() {
-        // delete home;
-        // delete profile;
-        // delete download;
-        // delete document;
-        // delete note;
+        delete test_actual_file_or_folder;
+        delete d_folder;
+        delete a_file;
+        delete b_file;
+        delete c_file;
         // delete favorite;
         // delete ddd;
         // delete ca;
         // delete cqrs;
     }
     
+    Node * test_actual_file_or_folder;
+    Node * d_folder;
+    Node * a_file;
+    Node * b_file;
+    Node * c_file;
+    Node * e_file;
     // Node * home;
     // Node * profile;
     // Node * download;
@@ -58,43 +81,30 @@ protected:
     // Node * cqrs;
 };
 
-TEST_F(VisitorTest, lstatFolder){
-    Folder folder = Folder::create("test");
-    ASSERT_EQ("test", folder.path());
-}
-
-TEST_F(VisitorTest, lstatFile){
-    File file = File::create("test/a.txt");
-    ASSERT_EQ("test/a.txt", file.path());
+TEST_F(VisitorTest, StreamOutVisitFolder){
+    ASSERT_EQ("test_actual_file_or_folder", test_actual_file_or_folder->path());
     Visitor * visitor = new StreamOutVisitor();
-    file.accept(visitor);
-    cout << dynamic_cast<StreamOutVisitor *>(visitor)->getResult() << endl;
+    test_actual_file_or_folder->accept(visitor);
+    ASSERT_EQ("_____________________________________________\ntest_actual_file_or_folder/d/e.txt\n---------------------------------------------\nI am file e.\n_____________________________________________\n\n_____________________________________________\ntest_actual_file_or_folder/a.txt\n---------------------------------------------\nI am file a.\n_____________________________________________\n\n_____________________________________________\ntest_actual_file_or_folder/b.txt\n---------------------------------------------\nI am file b.\n_____________________________________________\n\n_____________________________________________\ntest_actual_file_or_folder/c.txt\n---------------------------------------------\nI am file c.\n_____________________________________________\n\n", dynamic_cast<StreamOutVisitor *>(visitor)->getResult());
 }
 
-// TEST_F(VisitorTest, FindByNameVisitFolder){
-//     Visitor * visitor = new FindByNameVisitor("favorites");
-//     home->accept(visitor);
-//     ASSERT_FALSE(dynamic_cast<FindByNameVisitor *>(visitor)->getPaths().empty());
-//     ASSERT_EQ("/Users/user/home/Documents/favorites", dynamic_cast<FindByNameVisitor *>(visitor)->getPaths().front());
-// }
+TEST_F(VisitorTest, StreamOutVisitFile){
+    ASSERT_EQ("test_actual_file_or_folder/a.txt", a_file->path());
+    Visitor * visitor = new StreamOutVisitor();
+    a_file->accept(visitor);
+    ASSERT_EQ("_____________________________________________\ntest_actual_file_or_folder/a.txt\n---------------------------------------------\nI am file a.\n_____________________________________________\n", dynamic_cast<StreamOutVisitor *>(visitor)->getResult());
+}
 
-// TEST_F(VisitorTest, FindByNameVisitFile){
-//     Visitor * visitor = new FindByNameVisitor("note.txt");
-//     home->accept(visitor);
-//     ASSERT_FALSE(dynamic_cast<FindByNameVisitor *>(visitor)->getPaths().empty());
-//     ASSERT_EQ("/Users/user/home/Documents/note.txt", dynamic_cast<FindByNameVisitor *>(visitor)->getPaths().front());
-// }
+TEST_F(VisitorTest, FindByNameVisitFolder){
+    Visitor * visitor = new FindByNameVisitor("test_actual_file_or_folder");
+    test_actual_file_or_folder->accept(visitor);
+    ASSERT_FALSE(dynamic_cast<FindByNameVisitor *>(visitor)->getPaths().empty());
+    ASSERT_EQ("test_actual_file_or_folder", dynamic_cast<FindByNameVisitor *>(visitor)->getPaths().front());
+}
 
-// TEST_F(VisitorTest, StreamOutVisitFolder){
-//     Visitor * visitor = new StreamOutVisitor();
-//     home->accept(visitor);
-//     // ASSERT_FALSE(dynamic_cast<FindByNameVisitor *>(visitor)->getPaths().empty());
-//     // ASSERT_EQ("/Users/user/home/Documents/favorites", dynamic_cast<FindByNameVisitor *>(visitor)->getPaths().front());
-// }
-
-// TEST_F(VisitorTest, StreamOutVisitFile){
-//     Visitor * visitor = new StreamOutVisitor();
-//     note->accept(visitor);
-//     // ASSERT_FALSE(dynamic_cast<FindByNameVisitor *>(visitor)->getPaths().empty());
-//     // ASSERT_EQ("/Users/user/home/Documents/favorites", dynamic_cast<FindByNameVisitor *>(visitor)->getPaths().front());
-// }
+TEST_F(VisitorTest, FindByNameVisitFile){
+    Visitor * visitor = new FindByNameVisitor("e.txt");
+    test_actual_file_or_folder->accept(visitor);
+    ASSERT_FALSE(dynamic_cast<FindByNameVisitor *>(visitor)->getPaths().empty());
+    ASSERT_EQ("test_actual_file_or_folder/d/e.txt", dynamic_cast<FindByNameVisitor *>(visitor)->getPaths().front());
+}
