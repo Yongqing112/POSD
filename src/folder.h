@@ -13,7 +13,6 @@ class Folder: public Node {
 private:
     list<Node *> _nodes;
     list<string> _string;
-    int flag = 0;
 
 protected:
     void removeChild(Node * target) {
@@ -51,7 +50,11 @@ public:
     class FolderIterator : public Iterator {
     public:
         FolderIterator(Folder * composite)
-        :_host(composite) {}
+        :_host(composite) {
+            _list_size = _host->_nodes.size();
+            cout<< "list size : ";
+            cout << _list_size << endl;
+        }
 
         void first() {
             _current = _host->_nodes.begin();
@@ -74,6 +77,7 @@ public:
     private:
         Folder* const _host;
         std::list<Node *>::iterator _current;
+        int _list_size;
     };
 //-----------------------------------------------------------------------
 
@@ -92,10 +96,8 @@ public:
         if (node->path() != this->path() + "/" + node->name()) {
             throw string("Incorrect path of node: " + node -> path());
         }
-        if(flag == 0){
-            _nodes.push_back(node);
-            node->parent(this);
-        }
+        _nodes.push_back(node);
+        node->parent(this);
     }
 
     Node * getChildByName(const char * name) const {
@@ -119,12 +121,10 @@ public:
     }
 
     Iterator * createIterator() {
-        flag = 1;
         return new FolderIterator(this);
     }
 
     Iterator * dfsIterator() {
-        flag = 2;
         return new DfsIterator(this);
     }
 
