@@ -22,24 +22,20 @@ protected:
 public:
 
     static Folder * create(string path){
-        // cout << "path : " + path << endl;
         struct stat st;
         const char *cstr = path.c_str();
         lstat(cstr, &st);
         int mode = st.st_mode;//S_ISREG
         if(S_ISDIR(mode)){
-            // cout << "this is a folder : " + path << endl;
             return new Folder(path);
         }
         else{
-            // cout << "this is not a folder : " + path << endl;
             throw std::string("this is not a folder");
         }
     }
 
 
     void accept(Visitor * visitor) override{
-        // cout<< "accept name : " + this->name() << endl;
         Iterator * it = this->createIterator();
         for(it->first(); !it->isDone(); it->next()){
             it->currentItem()->accept(visitor);
@@ -52,15 +48,10 @@ public:
         FolderIterator(Folder * composite)
         :_host(composite) {
             _origin = _host->_nodes;
-            cout<< "origin list : ";
-            for (auto it=_origin.begin(); it != _origin.end(); ++it){
-                cout << (*it)->path() << endl;
-            }
         }
 
         void first() {
             if(_origin != _host->_nodes){
-                cout << "structure of golder is changed" << endl;
                 throw std::string("structure of golder is changed");
             }
             else{
@@ -74,7 +65,6 @@ public:
 
         void next() {
             if(_origin != _host->_nodes){
-                cout << "structure of golder is changed" << endl;
                 throw std::string("structure of golder is changed");
             }
             else{
@@ -101,7 +91,6 @@ public:
         lstat(cstr, &st);
         int mode = st.st_mode;//S_ISREG
         if(!S_ISDIR(mode)){
-            // cout << "this is a folder : " + path << endl;
             throw std::string("this is not a folder");
         }
     }

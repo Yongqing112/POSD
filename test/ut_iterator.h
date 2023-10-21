@@ -1,148 +1,157 @@
-// #pragma once 
+#pragma once 
 
-// #include "../src/node.h"
-// #include "../src/folder.h"
-// #include "../src/file.h"
-// #include "../src/iterator.h"
-// #include "../src/dfs_iterator.h"
+#include "../src/node.h"
+#include "../src/folder.h"
+#include "../src/file.h"
+#include "../src/iterator.h"
+#include "../src/dfs_iterator.h"
 
-// class IteratorTest: public ::testing::Test {
-// protected:
-//     virtual void SetUp() {
-//         home = new Folder("/Users/user/home");
+class IteratorTest: public ::testing::Test {
+protected:
+    void SetUp() {
+        test_actual_file_or_folder = Folder::create("test_actual_file_or_folder");
 
-//         profile = new File("/Users/user/home/my_profile");
-//         home->add(profile);
+        d_folder = Folder::create("test_actual_file_or_folder/d");
+        test_actual_file_or_folder->add(d_folder);
+        
+        g_folder = Folder::create("test_actual_file_or_folder/g");
+        test_actual_file_or_folder->add(g_folder);
 
-//         document = new Folder("/Users/user/home/Documents");
-//         home->add(document);
+        a_file = File::create("test_actual_file_or_folder/a.txt");
+        test_actual_file_or_folder->add(a_file);
 
-//         favorite = new Folder("/Users/user/home/Documents/favorites");
-//         document->add(favorite);
-//         ddd = new File("/Users/user/home/Documents/favorites/domain-driven-design.pdf");
-//         favorite->add(ddd);
-//         ca = new File("/Users/user/home/Documents/favorites/clean-architecture.pdf");
-//         favorite->add(ca);
-//         cqrs = new File("/Users/user/home/Documents/favorites/cqrs.pdf");
-//         favorite->add(cqrs);
+        b_file = File::create("test_actual_file_or_folder/b.txt");
+        test_actual_file_or_folder->add(b_file);
 
-//         note = new File("/Users/user/home/Documents/note.txt");
-//         document->add(note);
+        c_file = File::create("test_actual_file_or_folder/c.txt");
+        test_actual_file_or_folder->add(c_file);
 
-//         download = new Folder("/Users/user/home/Downloads");
-//         home->add(download);
+        e_file = File::create("test_actual_file_or_folder/d/e.txt");
+        d_folder->add(e_file);
 
-//         funny = new File("/Users/user/home/Downloads/funny.png");
-//         download->add(funny);
-//     }
+        h_file = File::create("test_actual_file_or_folder/g/h.txt");
+        g_folder->add(h_file);
 
-//     void TearDown() {
-//         delete home;
-//         delete profile;
-//         delete download;
-//         delete document;
-//         delete note;
-//         delete favorite;
-//         delete ddd;
-//         delete ca;
-//         delete cqrs;
-//         delete funny;
-//     }
+        i_folder = Folder::create("test_actual_file_or_folder/g/i");
+        g_folder->add(i_folder);
+
+        j_file = File::create("test_actual_file_or_folder/g/i/j.txt");
+        i_folder->add(j_file);
+    }
+
+    void TearDown() {
+        delete test_actual_file_or_folder;
+        delete d_folder;
+        delete g_folder;
+        delete i_folder;
+        delete a_file;
+        delete b_file;
+        delete c_file;
+        delete e_file;
+        delete h_file;
+        delete j_file;
+    }
     
-//     Node * home;
-//     Node * profile;
-//     Node * download;
-//     Node * document;
-//     Node * note;
-//     Node * favorite;
-//     Node * ddd;
-//     Node * ca;
-//     Node * cqrs;
-//     Node * funny;
-// };
+    Node * test_actual_file_or_folder;
+    Node * d_folder;
+    Node * g_folder;
+    Node * i_folder;
+    Node * a_file;
+    Node * b_file;
+    Node * c_file;
+    Node * e_file;
+    Node * h_file;
+    Node * j_file;
+};
 
-// TEST_F(IteratorTest, Normal) {
-//     Iterator * it = home->createIterator();
-//     it->first();
-//     ASSERT_FALSE(it->isDone());
+TEST_F(IteratorTest, Normal) {
+    Iterator * it = test_actual_file_or_folder->createIterator();
+    it->first();
+    ASSERT_FALSE(it->isDone());
     
-//     ASSERT_EQ("my_profile", it->currentItem()->name());
+    ASSERT_EQ("d", it->currentItem()->name());
     
-//     it->next();
-//     ASSERT_EQ("Documents", it->currentItem()->name());
+    it->next();
+    ASSERT_EQ("g", it->currentItem()->name());
 
-//     it->next();
-//     ASSERT_EQ("Downloads", it->currentItem()->name());
+    it->next();
+    ASSERT_EQ("a.txt", it->currentItem()->name());
 
-//     it->next();
-//     ASSERT_TRUE(it->isDone());
-// }
+    it->next();
+    ASSERT_EQ("b.txt", it->currentItem()->name());
 
-// TEST_F(IteratorTest, DFS) {
-//     Iterator * dfsIt = new DfsIterator(home);
+    it->next();
+    ASSERT_EQ("c.txt", it->currentItem()->name());
 
-//     dfsIt->first();
-//     ASSERT_EQ("my_profile", dfsIt->currentItem()->name());
+    it->next();
+    ASSERT_TRUE(it->isDone());
+}
 
-//     dfsIt->next();
-//     ASSERT_EQ("Documents", dfsIt->currentItem()->name());
+TEST_F(IteratorTest, DFS) {
+    Iterator * dfsIt = new DfsIterator(test_actual_file_or_folder);
 
-//     dfsIt->next();
-//     ASSERT_EQ("favorites", dfsIt->currentItem()->name());
+    dfsIt->first();
+    ASSERT_EQ("d", dfsIt->currentItem()->name());
 
-//     dfsIt->next();
-//     ASSERT_EQ("domain-driven-design.pdf", dfsIt->currentItem()->name());
+    dfsIt->next();
+    ASSERT_EQ("e.txt", dfsIt->currentItem()->name());
 
-//     dfsIt->next();
-//     ASSERT_EQ("clean-architecture.pdf", dfsIt->currentItem()->name());
+    dfsIt->next();
+    ASSERT_EQ("g", dfsIt->currentItem()->name());
 
-//     dfsIt->next();
-//     ASSERT_EQ("cqrs.pdf", dfsIt->currentItem()->name());
+    dfsIt->next();
+    ASSERT_EQ("h.txt", dfsIt->currentItem()->name());
 
-//     dfsIt->next();
-//     ASSERT_EQ("note.txt", dfsIt->currentItem()->name());
+    dfsIt->next();
+    ASSERT_EQ("i", dfsIt->currentItem()->name());
 
-//     dfsIt->next();
-//     ASSERT_EQ("Downloads", dfsIt->currentItem()->name());
+    dfsIt->next();
+    ASSERT_EQ("j.txt", dfsIt->currentItem()->name());
 
-//     dfsIt->next();
-//     ASSERT_EQ("funny.png", dfsIt->currentItem()->name());
+    dfsIt->next();
+    ASSERT_EQ("a.txt", dfsIt->currentItem()->name());
 
-//     dfsIt->next();
-//     ASSERT_TRUE(dfsIt->isDone());
-// }
+    dfsIt->next();
+    ASSERT_EQ("b.txt", dfsIt->currentItem()->name());
+
+    dfsIt->next();
+    ASSERT_EQ("c.txt", dfsIt->currentItem()->name());
+
+    dfsIt->next();
+    ASSERT_TRUE(dfsIt->isDone());
+}
 
 
-// TEST_F(IteratorTest, BFS) {
-//     Iterator * bfsIt = new BfsIterator(home);
+TEST_F(IteratorTest, BFS) {
+    Iterator * bfsIt = new BfsIterator(test_actual_file_or_folder);
 
-//     bfsIt->first();
-//     ASSERT_EQ("my_profile", bfsIt->currentItem()->name());
+    bfsIt->first();
+    ASSERT_EQ("d", bfsIt->currentItem()->name());
 
-//     bfsIt->next();
-//     ASSERT_EQ("Documents", bfsIt->currentItem()->name());
+    bfsIt->next();
+    ASSERT_EQ("g", bfsIt->currentItem()->name());
 
-//     bfsIt->next();
-//     ASSERT_EQ("Downloads", bfsIt->currentItem()->name());
+    bfsIt->next();
+    ASSERT_EQ("a.txt", bfsIt->currentItem()->name());
 
-//     bfsIt->next();
-//     ASSERT_EQ("favorites", bfsIt->currentItem()->name());
+    bfsIt->next();
+    ASSERT_EQ("b.txt", bfsIt->currentItem()->name());
 
-//     bfsIt->next();
-//     ASSERT_EQ("note.txt", bfsIt->currentItem()->name());
+    bfsIt->next();
+    ASSERT_EQ("c.txt", bfsIt->currentItem()->name());
 
-//     bfsIt->next();
-//     ASSERT_EQ("funny.png", bfsIt->currentItem()->name());
+    bfsIt->next();
+    ASSERT_EQ("e.txt", bfsIt->currentItem()->name());
 
-//     bfsIt->next();
-//     ASSERT_EQ("domain-driven-design.pdf", bfsIt->currentItem()->name());
+    bfsIt->next();
+    ASSERT_EQ("h.txt", bfsIt->currentItem()->name());
 
-//     bfsIt->next();
-//     ASSERT_EQ("clean-architecture.pdf", bfsIt->currentItem()->name());
+    bfsIt->next();
+    ASSERT_EQ("i", bfsIt->currentItem()->name());
 
-//     bfsIt->next();
-//     ASSERT_EQ("cqrs.pdf", bfsIt->currentItem()->name());
+    bfsIt->next();
+    ASSERT_EQ("j.txt", bfsIt->currentItem()->name());
 
-//     bfsIt->next();
-//     ASSERT_TRUE(bfsIt->isDone());
-// }
+    bfsIt->next();
+    ASSERT_TRUE(bfsIt->isDone());
+}
