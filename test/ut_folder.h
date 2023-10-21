@@ -12,6 +12,14 @@ TEST(Folder, normal) {
     ASSERT_EQ("test_actual_file_or_folder", test_actual_file_or_folder->path());
 }
 
+TEST(Folder, NotFolder){
+    ASSERT_ANY_THROW(Folder::create("test_actual_file_or_folder/a.txt"));
+}
+
+TEST(Folder, NotExistFolder){
+    ASSERT_ANY_THROW(Folder::create("test_actual_file_or_folder/k"));
+}
+
 TEST(Folder, add_file) {
     Folder * test_actual_file_or_folder = Folder::create("test_actual_file_or_folder");
     File * a_file = File::create("test_actual_file_or_folder/a.txt");
