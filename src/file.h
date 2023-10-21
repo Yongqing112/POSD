@@ -6,9 +6,9 @@
 
 class File: public Node {
 private:
-    list<string> _string;
+    std::list<std::string> _string;
 public:
-    static File * create(string path){
+    static File * create(std::string path){
         struct stat st;
         const char *cstr = path.c_str();
         lstat(cstr, &st);
@@ -21,7 +21,7 @@ public:
         }
     }
 
-    File(string path)
+    File(std::string path)
     : Node(path) 
     {
         struct stat st;
@@ -37,15 +37,15 @@ public:
         return 1;
     }
 
-    Node * find(string path) {
+    Node * find(std::string path) {
         if (this->path() == path) {
             return this;
         }
         return nullptr;
     }
 
-    std::list<string> findByName(string name) override {
-        std::list<string> pathList;
+    std::list<std::string> findByName(std::string name) override {
+        std::list<std::string> pathList;
         if (this->name() == name) {
             pathList.push_back(this->path());
         }

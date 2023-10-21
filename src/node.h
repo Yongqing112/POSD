@@ -1,6 +1,7 @@
 #pragma once 
 
-#include<string>
+#include <string>
+#include <list>
 #include "iterator.h"
 #include "null_iterator.h"
 #include "visitor.h"
@@ -9,11 +10,11 @@ using namespace std;
 
 class Node {
 private:
-    string _path;
+    std::string _path;
     Node * _parent;
 protected:
 
-    Node(string path): _path(path) {}
+    Node(std::string path): _path(path) {}
 
 public:
     virtual void accept(Visitor * visitor) = 0;
@@ -30,20 +31,20 @@ public:
     }
     
     virtual void removeChild(Node * target) {
-        throw string("This node does not support removing sub node");
+        throw std::string("This node does not support removing sub node");
     }
 
-    string name() const {
+    std::string name() const {
         size_t slash = _path.rfind("/");
         return _path.substr(slash+1);
     }
     
-    string path() const {
+    std::string path() const {
         return _path;
     }
     
     virtual void add(Node * node) {
-        throw string("This node does not support adding sub node");
+        throw std::string("This node does not support adding sub node");
     }
 
     virtual Node * getChildByName(const char * name) const {
@@ -60,12 +61,12 @@ public:
         return new NullIterator();
     }
 
-    virtual Node * find(string path) = 0;
+    virtual Node * find(std::string path) = 0;
 
-    virtual std::list<string> findByName(string name) = 0;
+    virtual std::list<std::string> findByName(std::string name) = 0;
 
-    virtual void remove(string path) {
-        throw string("This node does not support deleting sub node");
+    virtual void remove(std::string path) {
+        throw std::string("This node does not support deleting sub node");
     }
 
 };

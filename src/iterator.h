@@ -1,7 +1,5 @@
 #pragma once 
 
-#include<list>
-
 class Node;
 class Folder;
 
@@ -17,17 +15,3 @@ public:
         return true;
     }
 };
-
-// class FolderIterator : public Iterator {
-// public:
-//     FolderIterator(Folder* composite);
-//     ~FolderIterator() {}
-//     void first();
-//     Node * currentItem() const;
-//     void next();
-//     bool isDone() const;
-
-// private:
-//     Folder* const _host;
-//     std::list<Node *>::iterator _current;
-// };

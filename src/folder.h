@@ -1,18 +1,19 @@
 #pragma once
 
 #include <list>
+#include<string>
+#include <iostream>
+#include <sys/stat.h>
 #include "node.h"
 #include "iterator.h"
 #include "dfs_iterator.h"
-#include <iostream>
-#include <sys/stat.h>
 
 using namespace std;
 
 class Folder: public Node {
 private:
-    list<Node *> _nodes;
-    list<string> _string;
+    std::list<Node *> _nodes;
+    std::list<std::string> _string;
 
 protected:
     void removeChild(Node * target) {
@@ -21,7 +22,7 @@ protected:
 
 public:
 
-    static Folder * create(string path){
+    static Folder * create(std::string path){
         struct stat st;
         const char *cstr = path.c_str();
         lstat(cstr, &st);
@@ -81,11 +82,11 @@ public:
     private:
         Folder* const _host;
         std::list<Node *>::iterator _current;
-        list<Node *> _origin;
+        std::list<Node *> _origin;
     };
 //-----------------------------------------------------------------------
 
-    Folder(string path): Node(path) {
+    Folder(std::string path): Node(path) {
         struct stat st;
         const char *cstr = path.c_str();
         lstat(cstr, &st);
@@ -97,7 +98,7 @@ public:
 
     void add(Node * node) {
         if (node->path() != this->path() + "/" + node->name()) {
-            throw string("Incorrect path of node: " + node -> path());
+            throw std::string("Incorrect path of node: " + node -> path());
         }
         _nodes.push_back(node);
         node->parent(this);
@@ -131,14 +132,14 @@ public:
         return new DfsIterator(this);
     }
 
-    Node * find(string path) {
+    Node * find(std::string path) {
         if (this->path() == path) {
             return this;
         }
 
         size_t index = path.find(this->path());
 
-        if (string::npos == index) {
+        if (std::string::npos == index) {
             return nullptr;
         }
 
@@ -151,14 +152,14 @@ public:
         return nullptr;
     }
 
-    std::list<string> findByName(string name) override {
-        std::list<string> pathList;
+    std::list<std::string> findByName(std::string name) override {
+        std::list<std::string> pathList;
         if (this->name() == name) {
             pathList.push_back(this->path());
         }
 
         for (auto it = _nodes.begin(); it != _nodes.end(); ++it) {
-            std::list<string> paths = (*it)->findByName(name);
+            std::list<std::string> paths = (*it)->findByName(name);
             for (auto i = paths.begin(); i != paths.end(); i++)
             {
                 pathList.push_back(*i);  
@@ -169,7 +170,7 @@ public:
     }
 
 
-    void remove(string path) {
+    void remove(std::string path) {
         Node * target = find(path);
         if (target) {
             target->parent()->removeChild(target);

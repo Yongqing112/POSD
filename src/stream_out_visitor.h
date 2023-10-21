@@ -3,14 +3,16 @@
 #include "./visitor.h"
 #include "./folder.h"
 #include "./file.h"
+#include <string>
+#include <list>
 #include <fstream>
 #include <sstream>
 #include <iostream>
 
 class StreamOutVisitor : public Visitor{
 private:
-    string _result = "";
-    list<string> _resultlist;
+    std::string _result = "";
+    std::list<std::string> _resultlist;
 public:
     StreamOutVisitor(){}
 
@@ -19,12 +21,12 @@ public:
     void visitFile(File * file){
         std::ifstream ifs(file->path(), std::ios::in);
         if (!ifs.is_open()) {
-            cout << "Failed to open file.\n";
+            throw std::string("Failed to open file.\n");
         }
 
         std::stringstream ss;
         ss << ifs.rdbuf();
-        string contnet = ss.str();
+        std::string contnet = ss.str();
         if(_resultlist.empty()){
             _resultlist.push_back("_____________________________________________\n" + file->path() + "\n---------------------------------------------\n" + contnet + "\n_____________________________________________\n");
         }
@@ -34,7 +36,7 @@ public:
         ifs.close();
     }
 
-        string getResult(){
+        std::string getResult(){
             for (auto it=_resultlist.begin(); it != _resultlist.end(); ++it){
                 _result += *it;
             }

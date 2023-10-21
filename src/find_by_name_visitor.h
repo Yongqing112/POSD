@@ -4,13 +4,14 @@
 #include "./iterator.h"
 #include "./folder.h"
 #include "./file.h"
+#include<string>
 
 class FindByNameVisitor : public Visitor{
 private:
-    string _name;
-    list<string> _paths;
+    std::string _name;
+    std::list<std::string> _paths;
 public:
-    FindByNameVisitor(string name)
+    FindByNameVisitor(std::string name)
     : _name(name)
     {}
 
@@ -26,7 +27,7 @@ public:
         }
     }
 
-    list<string> getPaths(){
+    std::list<std::string> getPaths(){
         return _paths;
     }
 };
