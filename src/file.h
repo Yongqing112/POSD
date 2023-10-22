@@ -2,7 +2,6 @@
 
 #include "node.h"
 #include "./visitor.h"
-#include <iostream>
 
 class File: public Node {
 private:
@@ -51,7 +50,6 @@ public:
         }
         return pathList;
     }
-
 
     void accept(Visitor * visitor) override{
         visitor->visitFile(this);

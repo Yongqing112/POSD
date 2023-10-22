@@ -27,7 +27,7 @@ public:
         }
     }
 
-    std::list<std::string> getPaths(){
+    std::list<std::string> getPaths() const {
         return _paths;
     }
 };

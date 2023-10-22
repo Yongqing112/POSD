@@ -17,8 +17,6 @@ protected:
     Node(std::string path): _path(path) {}
 
 public:
-    virtual void accept(Visitor * visitor) = 0;
-//-------------------------------------------------------
 
     virtual ~Node() {}
 
@@ -69,4 +67,5 @@ public:
         throw std::string("This node does not support deleting sub node");
     }
 
+    virtual void accept(Visitor * visitor) = 0;
 };

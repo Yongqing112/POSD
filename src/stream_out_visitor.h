@@ -36,13 +36,13 @@ public:
         ifs.close();
     }
 
-        std::string getResult(){
-            for (auto it=_resultlist.begin(); it != _resultlist.end(); ++it){
-                _result += *it;
-            }
-            if(_resultlist.size() != 1){
-                _result += "\n";
-            }
-            return _result;
+    std::string getResult() const{
+        for (auto it=_resultlist.begin(); it != _resultlist.end(); ++it){
+            _result += *it;
         }
+        if(_resultlist.size() != 1){
+            _result += "\n";
+        }
+        return _result;
+    }
 };
