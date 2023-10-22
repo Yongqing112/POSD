@@ -16,12 +16,10 @@ private:
 public:
     StreamOutVisitor(){}
 
-    void visitFolder(Folder * folder){}
-
     void visitFile(File * file){
         std::ifstream ifs(file->path(), std::ios::in);
         if (!ifs.is_open()) {
-            throw std::string("Failed to open file.\n");
+            throw std::string("Failed to open file.");
         }
 
         std::stringstream ss;
@@ -37,6 +35,8 @@ public:
         }
         ifs.close();
     }
+
+    void visitFolder(Folder * folder){}
 
     std::string getResult() const{
         if(_resultlist.size() != 1){

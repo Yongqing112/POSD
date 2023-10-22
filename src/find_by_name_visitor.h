@@ -15,15 +15,15 @@ public:
     : _name(name)
     {}
 
-    void visitFolder(Folder * folder){
-        if (folder->name() == _name) {
-            _paths.push_back(folder->path());
-        }
-    }
-
     void visitFile(File * file){
         if (file->name() == _name) {
             _paths.push_back(file->path());
+        }
+    }
+
+    void visitFolder(Folder * folder){
+        if (folder->name() == _name) {
+            _paths.push_back(folder->path());
         }
     }
 
