@@ -1,7 +1,6 @@
 #pragma once 
 
 class Node;
-class Folder;
 
 class Iterator {
 public:

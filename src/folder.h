@@ -26,7 +26,7 @@ public:
         struct stat st;
         const char *cstr = path.c_str();
         lstat(cstr, &st);
-        int mode = st.st_mode;//S_ISREG
+        int mode = st.st_mode;
         if(S_ISDIR(mode)){
             return new Folder(path);
         }
@@ -35,62 +35,11 @@ public:
         }
     }
 
-
-    void accept(Visitor * visitor) override{
-        Iterator * it = this->createIterator();
-        for(it->first(); !it->isDone(); it->next()){
-            it->currentItem()->accept(visitor);
-        }
-        visitor->visitFolder(this);
-    }
-
-    class FolderIterator : public Iterator {
-    public:
-        FolderIterator(Folder * composite)
-        :_host(composite) {
-            _origin = _host->_nodes;
-        }
-
-        void first() {
-            if(_origin != _host->_nodes){
-                throw std::string("structure of golder is changed");
-            }
-            else{
-                _current = _host->_nodes.begin();
-            }
-        }
-
-        Node * currentItem() const {
-            return *_current;
-        }
-
-        void next() {
-            if(_origin != _host->_nodes){
-                throw std::string("structure of golder is changed");
-            }
-            else{
-            _current++;
-            }
-        }
-
-        bool isDone() const {
-            return _current == _host->_nodes.end();
-        }
-        
-        ~FolderIterator() {}
-
-    private:
-        Folder* const _host;
-        std::list<Node *>::iterator _current;
-        std::list<Node *> _origin;
-    };
-//-----------------------------------------------------------------------
-
     Folder(std::string path): Node(path) {
         struct stat st;
         const char *cstr = path.c_str();
         lstat(cstr, &st);
-        int mode = st.st_mode;//S_ISREG
+        int mode = st.st_mode;
         if(!S_ISDIR(mode)){
             throw std::string("this is not a folder");
         }
@@ -169,11 +118,59 @@ public:
         return pathList;
     }
 
-
     void remove(std::string path) {
         Node * target = find(path);
         if (target) {
             target->parent()->removeChild(target);
         }
     }
+
+    void accept(Visitor * visitor) override{
+        Iterator * it = this->createIterator();
+        for(it->first(); !it->isDone(); it->next()){
+            it->currentItem()->accept(visitor);
+        }
+        visitor->visitFolder(this);
+    }
+
+    class FolderIterator : public Iterator {
+    public:
+        FolderIterator(Folder * composite)
+        :_host(composite) {
+            _origin = _host->_nodes;
+        }
+
+        void first() {
+            if(_origin != _host->_nodes){
+                throw std::string("structure of golder is changed");
+            }
+            else{
+                _current = _host->_nodes.begin();
+            }
+        }
+
+        Node * currentItem() const {
+            return *_current;
+        }
+
+        void next() {
+            if(_origin != _host->_nodes){
+                throw std::string("structure of golder is changed");
+            }
+            else{
+            _current++;
+            }
+        }
+
+        bool isDone() const {
+            return _current == _host->_nodes.end();
+        }
+        
+        ~FolderIterator() {}
+
+    private:
+        Folder* const _host;
+        std::list<Node *>::iterator _current;
+        std::list<Node *> _origin;
+    };
 };
