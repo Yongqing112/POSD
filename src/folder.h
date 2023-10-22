@@ -142,7 +142,7 @@ public:
 
         void first() {
             if(_origin != _host->_nodes){
-                throw std::string("structure of golder is changed");
+                throw std::string("structure of folder is changed");
             }
             else{
                 _current = _host->_nodes.begin();
@@ -155,7 +155,7 @@ public:
 
         void next() {
             if(_origin != _host->_nodes){
-                throw std::string("structure of golder is changed");
+                throw std::string("structure of folder is changed");
             }
             else{
             _current++;
